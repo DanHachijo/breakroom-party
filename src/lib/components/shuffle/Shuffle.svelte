@@ -1,48 +1,74 @@
 <script>
 	import { addToastMsgQue } from '$lib/store/globalStore';
 	import { onMount } from 'svelte';
+	import JSConfetti from 'js-confetti';
+
+	// CONFETTI
+	let jsConfetti;
+	function initializeConfetti() {
+		jsConfetti = new JSConfetti();
+	}
+	function addConfetti() {
+		jsConfetti.addConfetti();
+	}
+	// END CONFETTI
+
+	// PROPS
+	const { tabNum, itemListDefault, badgeColor } = $props();
+
+	const ITEM_LIST_KEY = `itemList_${tabNum || 1}`;
+
+	function getItemListFromLocalStorage() {
+		const storedItemList = localStorage.getItem(ITEM_LIST_KEY);
+		if (storedItemList) {
+			try {
+				return JSON.parse(storedItemList);
+			} catch (error) {
+				console.error('Error parsing stored itemList:', error);
+			}
+		}
+		return [];
+	}
+
+	function setItemListToLocalStorage() {
+		localStorage.setItem(ITEM_LIST_KEY, JSON.stringify(itemList));
+	}
+
+
 
 	let selectedItem = $state('');
-	// let selectedItemId = $state(null);
-
 	let highlightedItem = $state('');
 	let isShuffling = $state(false);
 
-	let itemListDefault = [
-		{ id: 1, name: 'Pizza', isSelected: false },
-		{ id: 2, name: 'Burger', isSelected: false },
-		{ id: 3, name: 'Sushi', isSelected: true },
-		{ id: 4, name: 'Salad', isSelected: true },
-		{ id: 5, name: 'Steak', isSelected: false },
-		{ id: 6, name: 'Fries', isSelected: true },
-		{ id: 7, name: 'Ice Cream', isSelected: true },
-		{ id: 8, name: 'Pasta', isSelected: true },
-		{ id: 9, name: 'Tacos', isSelected: false },
-		{ id: 10, name: 'Sandwich', isSelected: false }
-	];
+
 
 	let itemList = $state([]);
 
 	function setItemListDefault() {
-		itemList = [...itemListDefault];
+		const storedItemList = getItemListFromLocalStorage();
+		if (storedItemList.length > 0) {
+			itemList = storedItemList;
+		} else {
+			itemList = [...itemListDefault];
+			setItemListToLocalStorage();
+		}
 	}
 
-	function removeItemFromItemList(itemsToRemove) {
-		itemList = itemList.filter((item) => !itemsToRemove.includes(item));
-	}
+  function resetToDefaultItemList() {
+    itemList = [...itemListDefault];
+    setItemListToLocalStorage();
+
+  }
 
 	let isSelectOnlyOnce = $state(false);
 
-	function toggleSelectedOption() {
-		isSelectOnlyOnce = !isSelectOnlyOnce;
+	function setAllItemsUnselected() {
+		itemList = itemList.map((item) => ({
+			...item,
+			isSelected: false
+		}));
+		setItemListToLocalStorage();
 	}
-
-	// function toggleSelectedItem(itemId) {
-	// 	const item = itemList.find((item) => item.id === itemId);
-	// 	if (item) {
-	// 		item.isSelected = !item.isSelected;
-	// 	}
-	// }
 
 	function setSelectedTrue(itemId) {
 		const item = itemList.find((item) => item.id === itemId);
@@ -51,13 +77,6 @@
 			item.isSelected = true;
 		}
 	}
-
-	// $effect(() => {
-	// 	if (isSelectOnlyOnce) {
-	// 	} else {
-	// 		setItemListDefault();
-	// 	}
-	// });
 
 	$effect(() => {
 		if (countSelectedFalse <= 1 && isSelectOnlyOnce) {
@@ -79,7 +98,6 @@
 	function updateItemListFromNames(names, event) {
 		const nameArray = names.split('\n').map((name) => name.trim());
 		const selectionStart = event.target.selectionStart;
-		// const selectionEnd = event.target.selectionEnd;
 
 		// Filter out empty names and create new objects
 		const newItems = nameArray.map((name, index) => ({
@@ -124,78 +142,104 @@
 			clearInterval(intervalId);
 			selectedItem = highlightedItem;
 			setSelectedTrue(selectedItem.id);
-      modalSelectedItem.showModal()
+			modalSelectedItem.showModal();
 			isShuffling = false;
+			addConfetti();
+			setItemListToLocalStorage();
 		}, shuffleDuration);
 	}
 
 	onMount(() => {
 		setItemListDefault();
+		initializeConfetti();
 	});
 </script>
 
-<!-- <button class="btn" onclick={()=>{addToastMsgQue("Lorem ipsum dolor sit. Lorem ipsum dolor sit.")}}>
-  Update
-</button> -->
 <div class="">
-	<div class="flex justify-center items-center gap-2">
-		<button
-			class="btn btn-md btn-secondary"
-			onclick={() => my_modal_3.showModal()}
-			disabled={isShuffling}
-		>
-			EDIT LIST
-		</button>
+	<div class="flex justify-center md:justify-between flex-wrap items-center gap-2 bg-slate-200">
+    <div class="p-2">
+      <div class="flex gap-2 flex-wrap pt-4 pl-2 md:p-2">
+        <button
+        class="btn btn-md btn-secondary"
+        onclick={resetToDefaultItemList}
+        disabled={isShuffling}
+      >
+        LOAD DEFAULT
+      </button>
+        <button
+          class="btn btn-md btn-secondary"
+          onclick={() => editModal.showModal()}
+          disabled={isShuffling}
+        >
+          EDIT
+        </button>
+  
+        <dialog id="editModal" class="modal modal-bottom sm:modal-middle">
+          <div class="modal-box">
+            <form method="dialog">
+              <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                disabled={itemList?.length <= 1}
+                onclick={() => {
+                  removeItemsWithEmptyNames();
+                  setItemListToLocalStorage();
+                }}>✕</button
+              >
+            </form>
+            <h3 class="font-bold text-lg">Shuffle list</h3>
+  
+            <span class="text-sm"
+              >⚠️Once you make changes in the list, all the selected items will be reset.</span
+            >
+            {#if itemList?.length <= 1}
+              <div class="alert alert-warning my-2">
+                <span>⚠️ Please add more than 2 items to paly this game. </span>
+              </div>
+            {/if}
+  
+            <textarea
+              class="textarea textarea-bordered min-h-96 w-full"
+              placeholder="Item List"
+              bind:value={itemListNames}
+              oninput={(event) => updateItemListFromNames(itemListNames, event)}
+            ></textarea>
+          </div>
+        </dialog>
+  
+        <button
+          class="btn btn-md btn-primary"
+          onclick={pickRandomItem}
+          disabled={isShuffling ||
+            (countSelectedFalse <= 1 && isSelectOnlyOnce) ||
+            itemList.length <= 1}
+        >
+          START
+        </button>
+      </div>
+    </div>
+    <div>
 
-		<dialog id="my_modal_3" class="modal modal-bottom sm:modal-middle">
-			<div class="modal-box">
-				<form method="dialog">
-					<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick={removeItemsWithEmptyNames}>✕</button>
-				</form>
-				<h3 class="font-bold text-lg">Shuffle list</h3>
-
-        <span class="text-sm">⚠️Once you make changes in the list, all the selected items will be reset.</span>
-				{#if itemList.length <= 1}
-					<div class="alert alert-warning my-2">
-						<span>⚠️ Please add more than 2 items to paly this game. </span>
-					</div>
-				{/if}
-
-				<textarea
-					class="textarea textarea-bordered min-h-32 w-full "
-					placeholder="Item List"
-					bind:value={itemListNames}
-					oninput={(event) => updateItemListFromNames(itemListNames, event)}
-				></textarea>
-			</div>
-		</dialog>
-
-		<button
-			class="btn btn-md btn-primary"
-			onclick={pickRandomItem}
-			disabled={isShuffling ||
-				(countSelectedFalse <= 1 && isSelectOnlyOnce) ||
-				itemList.length <= 1}
-		>
-			START
-		</button>
-
-		<div class="form-control">
-			<label class="label cursor-pointer">
-				<span class="label-text p-1">
-					{isSelectOnlyOnce ? 'Disabled selected' : 'Select all'}
-				</span>
-				<input
-					disabled={isShuffling}
-					type="checkbox"
-					class="toggle"
-					bind:checked={isSelectOnlyOnce}
-				/>
-			</label>
-		</div>
+      <div class="flex justify-start items-center w-full gap-2  flex-wrap p-2 " >
+        <div class="form-control sm:w-64 ">
+          <label class="label cursor-pointer flex justify-end">
+            <span class="label-text p-1 mr-2 ">
+              {isSelectOnlyOnce ? 'Disabled selected items' : 'Select from all items'}
+            </span>
+            <input
+              disabled={isShuffling}
+              type="checkbox"
+              class="toggle"
+              bind:checked={isSelectOnlyOnce}
+            />
+          </label>
+        </div>
+          
+          <button disabled={isShuffling || !isSelectOnlyOnce} class="btn btn-sm mr-2" onclick={setAllItemsUnselected}>RESET ALL ✅</button>
+      </div>
+    </div>
 	</div>
 
-	<div class="grid grid-cols-12 justify-center gap-2 mt-3">
+	<div class="grid grid-cols-12 justify-center gap-4 mt-8">
 		{#if itemList.length > 1}
 			{#each itemList as item, index}
 				<div
@@ -205,24 +249,24 @@
 						? 'opacity-50'
 						: ''} "
 				>
-					<div
-						class="w-full relative p-4 rounded-md transition-transform duration-100 {highlightedItem ===
-						item
-							? 'bg-blue-300 scale-105'
-							: 'bg-gray-200'}"
-					>
-						<div class="flex justify-between">
-							<div class="badge badge-primary absolute -top-2 -left-2">{index + 1}</div>
-              <span class="truncate">
-
-                {item.name}
-              </span>
-							<!-- {#if isSelectOnlyOnce}
-
-						<button class="btn btn-xs" onclick={() => (item.isSelected = !item.isSelected)}
-							>{item.isSelected ? '✅' : '🟩'}</button
+					<div class="w-full px-4 sm:px-1">
+						<div
+							class=" relative py-3 rounded-md transition-transform duration-100 {highlightedItem ===
+							item
+								? 'bg-blue-300 scale-105'
+								: 'bg-gray-200'}"
 						>
-            {/if} -->
+							<div class="flex justify-between">
+								<div class="badge {badgeColor} absolute -top-2 -left-1">{index + 1}</div>
+								<span class="truncate pl-2">
+									{item.name}
+								</span>
+								{#if isSelectOnlyOnce}
+									<button class="mr-3" disabled={isShuffling} onclick={() => (item.isSelected = !item.isSelected)}
+										>{item.isSelected ? '✅' : '🟩'}</button
+									>
+								{/if}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -233,10 +277,10 @@
 
 <!-- MODAL SHOW SELECTED ITEM -->
 <dialog id="modalSelectedItem" class="modal">
-  <div class="modal-box">
-    <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-    </form>
-    <h3 class="font-bold text-lg">{selectedItem.name}</h3>
-  </div>
+	<div class="modal-box">
+		<form method="dialog">
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+		</form>
+		<h3 class="flex justify-center font-bold text-lg">{selectedItem.name}</h3>
+	</div>
 </dialog>

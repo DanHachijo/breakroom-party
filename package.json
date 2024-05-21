@@ -29,6 +29,7 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.43.2",
-		"dotenv": "^16.4.5"
+		"dotenv": "^16.4.5",
+		"js-confetti": "^0.12.0"
 	}
 }

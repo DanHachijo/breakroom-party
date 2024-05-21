@@ -17,7 +17,6 @@
 		<Header />
 		<div class="h-full-content">
 			<slot />
-
 			<div class="toast toast-bottom toast-start">
 					{#each toastMsgList as { msg, style, id } (id)}
 						<Toast {msg} {style} {id} />
