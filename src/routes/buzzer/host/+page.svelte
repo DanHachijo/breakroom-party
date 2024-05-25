@@ -1,0 +1,1 @@
+<!-- Using server side to redirect user to /buzzer -->
