@@ -161,7 +161,7 @@
 		<div class="p-2">
 			<div class="flex gap-2 flex-wrap pt-4 pl-2 md:p-2">
 				<button
-					class="btn btn-md btn-secondary"
+					class="btn btn-md "
 					onclick={resetToDefaultItemList}
 					disabled={isShuffling}
 				>
@@ -299,32 +299,5 @@
 	</div>
 </dialog>
 
-<!-- <div class="countdown" >
-  <div class="countdown-number"></div>
-</div> -->
-{shuffleDuration}
 
-<style>
-	/* .countdown {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    padding: 1rem 2rem;
-    z-index: 1000;
-  }
-  .countdown-number {
-    animation: fade 1s linear infinite;
-  }
-  @keyframes fade {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-  } */
-</style>
+

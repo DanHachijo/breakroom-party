@@ -17,9 +17,11 @@
 	let hostNameInput = $state(null);
 	let joinURL = $state(null);
 
-	$effect(() => {
-		joinURL = `http://${window.location.hostname}:5173/buzzer/join/${fetchedHost?.uuid}`;
-	});
+  $effect(() => {
+    const isLocalhost = window.location.hostname === 'localhost';
+    const baseURL = isLocalhost ? 'http://localhost:5173' : `http://${window.location.hostname}`;
+    joinURL = `${baseURL}/buzzer/join/${fetchedHost?.uuid}`;
+  });
 
 	function saveUUID() {
 		setHostUUID(host_uuid);
