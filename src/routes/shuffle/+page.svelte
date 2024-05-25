@@ -4,6 +4,12 @@
 	let totalPageNum = 4;
 	let currentPage = 1;
 
+	let isShuffleParent = false;
+	function toggleShuffleParent(value) {
+		isShuffleParent = value;
+		console.log(isShuffleParent);
+	}
+
 	const sampleLists = [
 		[
 			{ id: 1, name: 'Pizza', isSelected: false },
@@ -43,7 +49,7 @@
 		]
 	];
 
-	const badgeColorOption = ["bg-blue-500",  "bg-red-500", "bg-green-500", "bg-yellow-500"	]
+	const badgeColorOption = ['bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-yellow-500'];
 	const pages = Array.from({ length: totalPageNum }, (_, i) => i + 1);
 
 	function showPage(num) {
@@ -54,17 +60,24 @@
 <div class="grid grid-cols-12 gap-4 pb-2 p-3 mb-2">
 	{#each pages as pageNum, index (index)}
 		<button
-			class="btn btn-sm    opacity-80 col-span-6 sm:col-span-3 w-full  {currentPage === pageNum ? badgeColorOption[index] :''}" 
+			disabled={isShuffleParent}
+			class="btn btn-sm opacity-80 col-span-6 sm:col-span-3 w-full border-none {currentPage === pageNum
+				? badgeColorOption[index]
+				: ''}"
 			onclick={() => showPage(pageNum)}
 		>
-			LIST <div class="badge {badgeColorOption[index]} badge-md border-none">{index + 1}</div>
+			LIST <div  class="badge { isShuffleParent ? 'opacity-50' : ''} {badgeColorOption[index]}  badge-md border-none">{index + 1}</div>
 		</button>
 	{/each}
 </div>
 
 {#each pages as pageNum, index (index)}
 	{#if currentPage === pageNum}
-		<Shuffle tabNum={pageNum} itemListDefault={sampleLists[index]} badgeColor={badgeColorOption[index]} />
+		<Shuffle
+			tabNum={pageNum}
+			itemListDefault={sampleLists[index]}
+			badgeColor={badgeColorOption[index]}
+			{toggleShuffleParent}
+		/>
 	{/if}
 {/each}
-

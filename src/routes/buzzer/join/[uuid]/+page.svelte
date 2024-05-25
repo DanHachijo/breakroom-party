@@ -16,6 +16,7 @@
 	import { addToastMsgQue } from '$lib/store/globalStore';
 	import { onMount } from 'svelte';
 	import BuzzBtn from '$lib/components/buzzer/BuzzBtn.svelte';
+	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 
 	let { data } = $props();
 
@@ -167,14 +168,13 @@
 		<div id="BOT"></div>
 	{:else if userID}
 		<div id="TOP" class="flex flex-col">
-			<div>
-				HOST: {buzzHost.name}
-			</div>
+			<HostNameDisplay hostName={buzzHost.name}/>
+
 			<div class="flex flex-col bg-gray-200 p-2 rounded-md">
 				<div>Welcome, {buzzUserData.name}</div>
 				<div class="text-base text-gray-400">user id:{userID}</div>
 				<button class="btn btn-sm btn-ghost m-2" onclick={() => userDeleteModal.showModal()}
-					>Trash
+					>🗑️
 				</button>
 			</div>
 

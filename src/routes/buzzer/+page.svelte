@@ -134,7 +134,7 @@
 						class="btn btn-base-200"
 						onclick={() => {
 							deleteBuzzHostModal.showModal();
-						}}>Trash</button
+						}}>🗑️</button
 					>
 				</div>
 				<dialog id="deleteBuzzHostModal" class="modal">

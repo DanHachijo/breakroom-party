@@ -12,7 +12,7 @@
 
 </script>
 
-<div class=" h-screen">
+<div class=" h-screen bg-gradient">
 	<div class="container mx-auto">
 		<Header />
 		<div class="h-full-content">

@@ -82,12 +82,12 @@
 		background: #cc0000;
 		border-radius: 50%;
 		display: block;
-		height: 10em;
+		height: 8em;
 		margin: -3.4em auto 0;
 		padding: 0.55em;
 		position: relative;
 		top: 50%;
-		width: 10em;
+		width: 8em;
 		z-index: 20;
 	}
 

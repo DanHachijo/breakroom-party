@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 </script>
 
-<div class="navbar bg-base-100 rounded-b-lg">
+<div class="navbar bg-base-300 rounded-b-lg">
 	<div class="flex-1">
 		<button class="btn btn-ghost text-base" onclick={() => goto('/')}>Breakroom Party</button>
 	</div>

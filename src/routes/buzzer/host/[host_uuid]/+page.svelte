@@ -286,7 +286,7 @@
 
 					<div class="flex items-end">
 						<button class="btn btn-xs btn-ghost" onclick={()=>{handleDeleteUser(user.id)}}
-							>Trash</button
+							>🗑️</button
 						>
 					</div>
 				</div>
