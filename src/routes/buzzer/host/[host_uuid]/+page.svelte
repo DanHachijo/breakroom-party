@@ -11,7 +11,7 @@
 		updateWinCount,
 		deleteBuzzUser
 	} from '$lib/supabase/buzzerClient.js';
-	import { toastMgr } from '$lib/store/globalStore.svelte';
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
   import JSConfetti from "js-confetti";
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
@@ -108,9 +108,6 @@
 	}
 
 	onMount(async () => {
-		// console.log(host_uuid);
-		// console.log(uuid)
-		console.log(data)
 		subscribeGameUsers(uuid, updateGameUsers);
 		subscribeToBuzzUsers(uuid, updateUsers);
 		jsConfetti = new JSConfetti();

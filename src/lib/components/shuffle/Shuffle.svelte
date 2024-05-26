@@ -1,5 +1,5 @@
 <script>
-	import { toastMgr } from '$lib/store/globalStore.svelte';
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import { onMount } from 'svelte';
 	import JSConfetti from 'js-confetti';
 

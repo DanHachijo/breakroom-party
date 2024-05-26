@@ -1,4 +1,4 @@
-import { toastMgr } from '$lib/store/globalStore.svelte';
+import { toastMgr } from '$lib/helper/toastStore.svelte';
 
 export function copyToClipboard(url) {
 	navigator.clipboard

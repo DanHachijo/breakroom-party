@@ -1,7 +1,7 @@
 <!-- Toast.svelte -->
 <script>
 	import { onMount } from 'svelte';
-	import { toastMgr } from '$lib/store/globalStore.svelte';
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	let { msg, style, id } = $props();
 
 	function closeToast() {

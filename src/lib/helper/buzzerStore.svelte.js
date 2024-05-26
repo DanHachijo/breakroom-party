@@ -4,7 +4,7 @@ import {
 	fetchBuzzHostByHostUUID,
 	deleteBuzzHostByHostUUID
 } from '$lib/supabase/buzzerClient.js';
-import { toastMgr } from '$lib/store/globalStore.svelte';
+import { toastMgr } from '$lib/helper/toastStore.svelte';
 import { goto } from '$app/navigation';
 
 //

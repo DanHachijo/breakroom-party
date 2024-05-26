@@ -2,14 +2,8 @@
 	import '../app.css';
 	import Header from '$lib/wireframe/Header.svelte';
 	import Toast from '$lib/wireframe/Toast.svelte';
-	import { toastMgr } from '$lib/store/globalStore.svelte';
-
-	// let toastMsgList;
-
-	// toastMsgQue.subscribe((value) => {
-	// 	toastMsgList = value;
-	// });
-
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
+	import ConsentModal from '$lib/components/privacyPolicy/ConsentModal.svelte';
 
 
 </script>
@@ -27,3 +21,5 @@
 		</div>
 	</div>
 </div>
+
+<ConsentModal/>

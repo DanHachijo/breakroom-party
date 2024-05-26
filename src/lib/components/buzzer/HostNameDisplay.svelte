@@ -2,14 +2,13 @@
 	import {  getDeletionTime } from '$lib/helper/buzzer';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
-	let { name, created_at, host_uuid, id, uuid } = $derived(hostDataMgr.hostData);
+	let { name, created_at, host_uuid, id, uuid } = hostDataMgr.hostData || {};
 
   let { isShowHostDelete = false } = $props() 
 
 	function addRainbowColors(text) {
-		if (!text) return ''; // Check if text is null or undefined
+		if (!text) return '';
 
-		// Array of Tailwind color classes
 		const colors = [
 			'text-red-500',
 			'text-orange-500',
@@ -31,32 +30,33 @@
 	}
 
 </script>
-<div class="flex flex-col">
-	<div class="flex flex-wrap justify-center items-end p-2 gap-1 bg-gray-100 px-6 rounded-full">
+
+<div class="flex flex-col m-2 bg-gray-100 p-2 px-12 rounded-full ">
+	<div class="flex flex-wrap justify-center items-end p-2 gap-1  ">
 		<span class="colorful-party-text text-2xl font-bold">
+      {#if name}
 			{@html addRainbowColors(name)}
+      {/if}
 		</span>
-		<span class="text-xs text-slate-300">{id}</span>
+		<!-- <span class="text-xs text-sl'ate-400">{id}</span> -->
 	</div>
 
   {#if isShowHostDelete}
-	<div class="text-xs text-slate-200">
-		This host will automatically deleted at {getDeletionTime(created_at)}
-	</div>
-	<div class="text-xs text-slate-200">
-		Or you delete it now <button
-			class="btn btn-ghost btn-xs"
-			onclick={() => {
-				deleteBuzzHostModal.showModal();
-			}}>🗑️</button
-		>
+	<div class="text-xs text-slate-400">
+		Available till {getDeletionTime(created_at)} 		<button
+    class="btn btn-ghost btn-xs"
+    aria-label="Delete hosted game"
+    onclick={() => {
+      deleteBuzzHostModal.showModal();
+    }}>🗑️</button
+  >
 	</div>
   {/if}
 </div>
 
 <dialog id="deleteBuzzHostModal" class="modal">
 	<div class="modal-box">
-		<h3 class="font-bold text-lg">Are you sure you want to delete a hosted game?</h3>
+		<h3 class="font-bold text-lg">Are you sure you want to delete this host?</h3>
 
 		<div class="modal-action">
 			<form method="dialog">

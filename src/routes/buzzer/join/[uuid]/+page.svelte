@@ -13,7 +13,7 @@
 		setBuzzUserIDToLocal,
 		deleteBuzzUserIDFromLocal
 	} from '$lib/helper/buzzer';
-	import { toastMgr } from '$lib/store/globalStore.svelte';
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import { onMount } from 'svelte';
 	import BuzzBtn from '$lib/components/buzzer/BuzzBtn.svelte';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
