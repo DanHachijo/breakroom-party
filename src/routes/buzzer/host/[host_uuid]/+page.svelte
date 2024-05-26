@@ -12,6 +12,8 @@
 	} from '$lib/supabase/buzzerClient.js';
 	import { addToastMsgQue } from '$lib/store/globalStore';
   import JSConfetti from "js-confetti";
+	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
+
   let jsConfetti;
 
 	let { data } = $props();
@@ -30,14 +32,6 @@
 	let scoreNum = $state(1);
 	let sortedUsersByWinNum = $state([]);
 
-	// function updateUserDisplay() {
-	// 	sortedUsersByWinNum = [...buzzUsers].sort((a, b) => b.win_num - a.win_num);
-	// }
-
-	// function updateDisplay() {
-	// 	sortedUsersByWinNum = [...buzzUsers].sort((a, b) => b.win_num - a.win_num);
-	// }
-
 	$effect(() => {
 		sortedUsersByWinNum = [...Users].sort((a, b) => b.win_num - a.win_num);
 	});
@@ -46,12 +40,6 @@
     const sortedGameUsers = [...buzzGame].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     gameUsers = sortedGameUsers;
 });
-
-
-// 	$effect(() => {
-//     sortedUsersByWinNum = [...Users].sort((a, b) => b.win_num - a.win_num);
-//     gameUsers = buzzGame.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-// });
 
 
 	async function updateGameUsers() {
@@ -128,7 +116,9 @@
 
 <div class="flex flex-col justify-between h-full-content">
 	<div id="host-name-section" class=" flex justify-center">
-		<div class="font-semibold p-3">{buzzHost.name}</div>
+		<HostNameDisplay hostData={buzzHost}/>
+
+		<!-- <div class="font-semibold p-3">{buzzHost.name}</div> -->
 	</div>
 
 	<div id="buzzed-display-section" class="flex overflow-auto min-h-40 justify-center items-start pt-3">

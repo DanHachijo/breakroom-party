@@ -64,7 +64,6 @@
 			...item,
 			isSelected: false
 		}));
-		// selectedItem = ''
 		selectedItem = '';
 		highlightedItem = '';
 		setItemListToLocalStorage();
@@ -131,7 +130,6 @@
 	function pickRandomItem() {
 		toggleShuffleParent(true);
 		isShuffling = true;
-		// let shuffleDuration = 3000; // 3 seconds
 		let intervalDuration = 100; // Shuffle every 100ms
 
 		shuffleAndHighlight();
@@ -177,16 +175,16 @@
 
 				<dialog id="editModal" class="modal modal-bottom sm:modal-middle">
 					<div class="modal-box">
-						<form method="dialog">
+						<!-- <form method="dialog">
 							<button
-								class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+								class="btn btn-sm  btn-ghost absolute right-2 top-2 text-xl"
 								disabled={itemList?.length <= 1}
 								onclick={() => {
 									removeItemsWithEmptyNames();
 									setItemListToLocalStorage();
-								}}>✕</button
+								}}>🆗</button
 							>
-						</form>
+						</form> -->
 						<h3 class="font-bold text-lg">Shuffle list</h3>
 
 						<span class="text-xs"
@@ -204,6 +202,20 @@
 							bind:value={itemListNames}
 							oninput={(event) => updateItemListFromNames(itemListNames, event)}
 						></textarea>
+
+						<form method="dialog">
+							<div class="flex justify-end">
+
+								<button
+									class="btn btn-sm btn-accent mt-2"
+									disabled={itemList?.length <= 1}
+									onclick={() => {
+										removeItemsWithEmptyNames();
+										setItemListToLocalStorage();
+									}}>DONE</button
+								>
+							</div>
+						</form>
 					</div>
 				</dialog>
 
@@ -255,7 +267,7 @@
 				>
 					<div class="w-full px-4 sm:px-1">
 						<div
-							class=" relative py-3 rounded-md transition-transform duration-100 {highlightedItem ===
+							class=" relative py-3 rounded-md min-h-12	 transition-transform duration-100 {highlightedItem ===
 							item
 								? 'bg-blue-400 text-slate-100	'
 								: 'bg-gray-200'}"

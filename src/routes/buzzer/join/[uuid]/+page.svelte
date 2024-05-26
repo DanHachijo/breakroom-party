@@ -168,7 +168,7 @@
 		<div id="BOT"></div>
 	{:else if userID}
 		<div id="TOP" class="flex flex-col">
-			<HostNameDisplay hostName={buzzHost.name}/>
+			<HostNameDisplay hostData={buzzHost}/>
 
 			<div class="flex flex-col bg-gray-200 p-2 rounded-md">
 				<div>Welcome, {buzzUserData.name}</div>
