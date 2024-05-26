@@ -13,7 +13,7 @@
 		setBuzzUserIDToLocal,
 		deleteBuzzUserIDFromLocal
 	} from '$lib/helper/buzzer';
-	import { addToastMsgQue } from '$lib/store/globalStore';
+	import { toastMgr } from '$lib/store/globalStore.svelte';
 	import { onMount } from 'svelte';
 	import BuzzBtn from '$lib/components/buzzer/BuzzBtn.svelte';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
@@ -75,7 +75,7 @@
 			updateUserID();
 			listenUserDeletion();
 			userNameInput = null;
-			addToastMsgQue('User is created', 'alert-info');
+			toastMgr.addToastMsgQue('User is created', 'alert-info');
 		} catch (error) {
 			showAlert('Error creating user');
 		}
@@ -86,7 +86,7 @@
 			const [userInfo] = await fetchBuzzUser(userID, hostDataMgr.hostData.uuid);
 			buzzUserData = userInfo;
 			updateUserID();
-			addToastMsgQue('User info is fetched', 'alert-info');
+			toastMgr.addToastMsgQue('User info is fetched', 'alert-info');
 		} catch (error) {
 			console.error('Error fetching user info:', error.message);
 			deleteBuzzUserIDFromLocal();
@@ -111,7 +111,7 @@
 		buzz_game_id = null;
 		isBuzzBtnLock = false;
 		deleteBuzzUserIDFromLocal();
-		addToastMsgQue('User is deleted', 'alert-warning');
+		toastMgr.addToastMsgQue('User is deleted', 'alert-warning');
 	}
 
 	async function listenUserDeletion() {

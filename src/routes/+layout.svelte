@@ -2,13 +2,13 @@
 	import '../app.css';
 	import Header from '$lib/wireframe/Header.svelte';
 	import Toast from '$lib/wireframe/Toast.svelte';
-	import { toastMsgQue } from '$lib/store/globalStore';
+	import { toastMgr } from '$lib/store/globalStore.svelte';
 
-	let toastMsgList;
+	// let toastMsgList;
 
-	toastMsgQue.subscribe((value) => {
-		toastMsgList = value;
-	});
+	// toastMsgQue.subscribe((value) => {
+	// 	toastMsgList = value;
+	// });
 
 
 
@@ -20,7 +20,7 @@
 		<div class="h-full-content">
 			<slot />
 			<div class="toast toast-bottom toast-start">
-					{#each toastMsgList as { msg, style, id } (id)}
+					{#each toastMgr.toastMsgQue as { msg, style, id } (id)}
 						<Toast {msg} {style} {id} />
 					{/each}
 			</div>

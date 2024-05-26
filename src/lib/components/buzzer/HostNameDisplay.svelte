@@ -1,7 +1,5 @@
 <script>
 	import {  getDeletionTime } from '$lib/helper/buzzer';
-	import { addToastMsgQue } from '$lib/store/globalStore';
-	import { deleteBuzzHost } from '$lib/supabase/buzzerClient.js';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
 	let { name, created_at, host_uuid, id, uuid } = $derived(hostDataMgr.hostData);

@@ -7,7 +7,6 @@
 	let isShuffleParent = false;
 	function toggleShuffleParent(value) {
 		isShuffleParent = value;
-		console.log(isShuffleParent);
 	}
 
 	const sampleLists = [

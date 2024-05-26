@@ -11,7 +11,7 @@
 		updateWinCount,
 		deleteBuzzUser
 	} from '$lib/supabase/buzzerClient.js';
-	import { addToastMsgQue } from '$lib/store/globalStore';
+	import { toastMgr } from '$lib/store/globalStore.svelte';
   import JSConfetti from "js-confetti";
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
@@ -59,7 +59,7 @@
 			activeUserIndex = 0;
       winUserId = null;
       isBtnDisabled = false;
-			addToastMsgQue('Game is reset', 'alert-info');
+			toastMgr.addToastMsgQue('Game is reset', 'alert-info');
 		} catch (error) {
 			console.error('Error reset game:', error.message);
 		}
@@ -98,7 +98,7 @@
 		try {
 			if (userID && buzzHost.uuid) {
 				const response = await deleteBuzzUser(userID, uuid);
-				addToastMsgQue('User deleted successfully', 'alert-success');
+				toastMgr.addToastMsgQue('User deleted successfully', 'alert-success');
 			} else {
 				console.error('UserID or UUID is missing');
 			}

@@ -1,5 +1,5 @@
 <script>
-	import { addToastMsgQue } from '$lib/store/globalStore';
+	import { toastMgr } from '$lib/store/globalStore.svelte';
 	import { onMount } from 'svelte';
 	import JSConfetti from 'js-confetti';
 
@@ -78,7 +78,7 @@
 
 	$effect(() => {
 		if (countSelectedFalse <= 1 && isSelectOnlyOnce) {
-			addToastMsgQue("We don't have enough items shuffle😅");
+			toastMgr.addToastMsgQue("We don't have enough items shuffle😅");
 		}
 	});
 

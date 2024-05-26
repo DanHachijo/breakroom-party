@@ -6,7 +6,8 @@
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
-	let isHostUUID = $derived(Boolean(hostDataMgr?.hostData?.host_uuid))
+	let isHostUUID = $derived(Boolean(hostDataMgr?.hostData?.host_uuid));
+	let isLoading = $state(true);
 
 	let hostNameInput = $state(null);
 	let joinURL = $state(null);
@@ -17,21 +18,20 @@
 		joinURL = `${baseURL}/buzzer/join/${hostDataMgr?.hostData?.uuid}`;
 	});
 
-
 	onMount(async () => {
-		hostDataMgr.getHostUUIDFromLocalStorage() ? hostDataMgr.fetchtBuzzHostFromDB() : ''
+		if (hostDataMgr.getHostUUIDFromLocalStorage()) {
+			await hostDataMgr.fetchtBuzzHostFromDB();
+		}
+		isLoading = false;
 	});
 </script>
-
-isHostUUID{isHostUUID}
-hostDataMgr.hostData{JSON.stringify(hostDataMgr.hostData)}
 
 <div class="flex items-center justify-center h-full-content">
 	<div class="grid grid-cols-2 gap-4">
 		<div class=" col-span-2 md:col-span-1 flex flex-col justify-between bg-primary rounded-md p-2">
 			<div class="font-semibold p-3">HOST Buzz Game</div>
 
-			{#if !isHostUUID}
+			{#if !isHostUUID || isLoading}
 				<div class="flex justify-center">
 					<input
 						type="text"
@@ -43,15 +43,16 @@ hostDataMgr.hostData{JSON.stringify(hostDataMgr.hostData)}
 				<div class="flex justify-end">
 					<button
 						disabled={!hostNameInput}
-						class="btn btn-md btn-primary mt-4"
-						onclick={() => hostDataMgr.createBuzzHostDB(hostNameInput) && (hostNameInput = '')}>Create a game</button
+						class="btn btn-md btn-accent mt-4"
+						onclick={() => hostDataMgr.createBuzzHostDB(hostNameInput) && (hostNameInput = '')}
+						>Create a game</button
 					>
 				</div>
 			{:else}
 				<div class="flex flex-col items-center justify-center flex-wrap gap-2 p-2">
 					<div class="flex justify-center items-end">
 						{#if hostDataMgr.hostData}
-							<HostNameDisplay isShowHostDelete={true}/>
+							<HostNameDisplay isShowHostDelete={true} />
 						{/if}
 					</div>
 				</div>
@@ -67,24 +68,22 @@ hostDataMgr.hostData{JSON.stringify(hostDataMgr.hostData)}
 
 		<div class="col-span-2 md:col-span-1 justify-between bg-primary rounded-md p-2">
 			<div class="font-semibold p-3">JOIN Buzz Button</div>
-			{#if isHostUUID}
-				{#if joinURL}
-					<p class="flex justify-center">👇Share this Join URL with your team👇</p>
-					<div class="border-2 mt-2 p-2 flex flex-row items-center">
-						<a
-							class="text-blue-500 hover:text-blue-700 text-xs"
-							target="_blank"
-							rel="noopener noreferrer"
-							href={joinURL}>{joinURL}</a
-						>
-						<button class="btn btn-sm btn-info ml-2" onclick={() => copyToClipboard(joinURL)}
-							>Copy</button
-						>
-					</div>
-				{/if}
-			{:else}
+			{#if !isHostUUID || isLoading}
 				<p class="flex justify-center my-4">Ask host the Join URL 😊</p>
 				<div></div>
+			{:else if joinURL}
+				<p class="flex justify-center">👇Share this Join URL with your team👇</p>
+				<div class="border-2 mt-2 p-2 flex flex-row items-center">
+					<a
+						class="text-blue-500 hover:text-blue-700 text-xs"
+						target="_blank"
+						rel="noopener noreferrer"
+						href={joinURL}>{joinURL}</a
+					>
+					<button class="btn btn-sm btn-info ml-2" onclick={() => copyToClipboard(joinURL)}
+						>Copy</button
+					>
+				</div>
 			{/if}
 		</div>
 	</div>

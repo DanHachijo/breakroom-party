@@ -4,7 +4,7 @@ import {
 	fetchBuzzHostByHostUUID,
 	deleteBuzzHostByHostUUID
 } from '$lib/supabase/buzzerClient.js';
-import { addToastMsgQue } from '$lib/store/globalStore';
+import { toastMgr } from '$lib/store/globalStore.svelte';
 import { goto } from '$app/navigation';
 
 //
@@ -36,9 +36,9 @@ function createHostData() {
 			hostData = newHost[0];
 			setHostUUIDToLocalStorage();
 			console.log(hostData);
-			addToastMsgQue('Buzz host created successfully!');
+			toastMgr.addToastMsgQue('Buzz host created successfully!');
 		} catch (error) {
-			addToastMsgQue(`Error creating buzz host: ${error.message}`);
+			toastMgr.addToastMsgQue(`Error creating buzz host: ${error.message}`);
 		}
 	}
 
@@ -48,11 +48,11 @@ function createHostData() {
 			console.log(hostData.host_uuid);
 			await deleteBuzzHostByHostUUID(hostData.host_uuid);
 			updateData(defaultObject);
-			addToastMsgQue('Buzz host deleted successfully!');
+			toastMgr.addToastMsgQue('Buzz host deleted successfully!');
 			deleteHostUUIDFromLocalStorage();
 			goto('/buzzer');
 		} catch (error) {
-			addToastMsgQue(`Error deleting buzz host: ${error.message}`);
+			toastMgr.addToastMsgQue(`Error deleting buzz host: ${error.message}`);
 		}
 	}
 
@@ -60,9 +60,9 @@ function createHostData() {
 		try {
 			let data = await fetchBuzzHostByHostUUID(hostData.host_uuid);
 			hostData = data[0];
-			addToastMsgQue('Buzz host fetched successfully!');
+			toastMgr.addToastMsgQue('Buzz host fetched successfully!');
 		} catch (error) {
-			addToastMsgQue(`Error fetching buzz host: ${error.message}`);
+			toastMgr.addToastMsgQue(`Error fetching buzz host: ${error.message}`);
 		}
 	}
 
