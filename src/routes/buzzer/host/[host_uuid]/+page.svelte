@@ -1,6 +1,7 @@
+<!-- HOST/HOST_UUID -->
 <script>
 	import { onMount } from 'svelte';
-	import { calculateTimeDifference, setHostUUID, deleteHostUUID } from '$lib/helper/buzzer';
+	import { calculateTimeDifference } from '$lib/helper/buzzer';
 	import {
 		clearAllBuzzedUsers,
 		subscribeGameUsers,
@@ -13,10 +14,12 @@
 	import { addToastMsgQue } from '$lib/store/globalStore';
   import JSConfetti from "js-confetti";
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
+	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
   let jsConfetti;
 
 	let { data } = $props();
+	hostDataMgr.updateData(data.props.buzzHost)
 
 	let buzzHost = $state(data.props.buzzHost);
 	let Users = $state(data.props.buzzUsers);
@@ -107,6 +110,7 @@
 	onMount(async () => {
 		// console.log(host_uuid);
 		// console.log(uuid)
+		console.log(data)
 		subscribeGameUsers(uuid, updateGameUsers);
 		subscribeToBuzzUsers(uuid, updateUsers);
 		jsConfetti = new JSConfetti();
@@ -116,10 +120,13 @@
 
 <div class="flex flex-col justify-between h-full-content">
 	<div id="host-name-section" class=" flex justify-center">
-		<HostNameDisplay hostData={buzzHost}/>
 
+		<HostNameDisplay isShowHostDelete={true}/>
+
+		
 		<!-- <div class="font-semibold p-3">{buzzHost.name}</div> -->
 	</div>
+
 
 	<div id="buzzed-display-section" class="flex overflow-auto min-h-40 justify-center items-start pt-3">
 		{#if gameUsers.length === 0}

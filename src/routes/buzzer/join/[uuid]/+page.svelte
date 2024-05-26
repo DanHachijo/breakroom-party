@@ -17,10 +17,11 @@
 	import { onMount } from 'svelte';
 	import BuzzBtn from '$lib/components/buzzer/BuzzBtn.svelte';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
+	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
 	let { data } = $props();
 
-	let buzzHost = $state(data.props.buzzHost);
+	hostDataMgr.updateData(data.props.buzzHost)
 
 	let defaultBuzzUser = {
 		id: '',
@@ -50,7 +51,7 @@
 	// END Btn Component
 
 	let createUserState = $state({
-		uuid: buzzHost?.uuid,
+		uuid: hostDataMgr.hostData?.uuid,
 		name: ''
 	});
 
@@ -82,7 +83,7 @@
 
 	async function fetchUserInfo() {
 		try {
-			const [userInfo] = await fetchBuzzUser(userID, buzzHost.uuid);
+			const [userInfo] = await fetchBuzzUser(userID, hostDataMgr.hostData.uuid);
 			buzzUserData = userInfo;
 			updateUserID();
 			addToastMsgQue('User info is fetched', 'alert-info');
@@ -123,8 +124,8 @@
 
 	async function handleDeleteUser() {
 		try {
-			if (userID && buzzHost.uuid) {
-				const response = await deleteBuzzUser(userID, buzzHost.uuid);
+			if (userID && hostDataMgr.hostData.uuid) {
+				const response = await deleteBuzzUser(userID, hostDataMgr.hostData.uuid);
 			} else {
 				console.error('UserID or UUID is missing');
 			}
@@ -168,7 +169,7 @@
 		<div id="BOT"></div>
 	{:else if userID}
 		<div id="TOP" class="flex flex-col">
-			<HostNameDisplay hostData={buzzHost}/>
+			<HostNameDisplay />
 
 			<div class="flex flex-col bg-gray-200 p-2 rounded-md">
 				<div>Welcome, {buzzUserData.name}</div>

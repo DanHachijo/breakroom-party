@@ -1,23 +1,12 @@
 <script>
-	import { getDeletionTime } from '$lib/helper/buzzer';
+	import {  getDeletionTime } from '$lib/helper/buzzer';
+	import { addToastMsgQue } from '$lib/store/globalStore';
+	import { deleteBuzzHost } from '$lib/supabase/buzzerClient.js';
+	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
-	let { hostData } = $props();
+	let { name, created_at, host_uuid, id, uuid } = $derived(hostDataMgr.hostData);
 
-	let { name, created_at, host_uuid } = hostData;
-
-	import { fetchBuzzHostByHostUUID } from '$lib/supabase/buzzerClient.js';
-
-	async function handleDeleteBuzzHost() {
-		try {
-			await deleteBuzzHost(host_uuid);
-			// host_uuid = '';
-			// fetchedHost = null;
-			addToastMsgQue('Buzz host deleted successfully!');
-			// saveUUID();
-		} catch (error) {
-			addToastMsgQue(`Error deleting buzz host: ${error.message}`);
-		}
-	}
+  let { isShowHostDelete = false } = $props() 
 
 	function addRainbowColors(text) {
 		if (!text) return ''; // Check if text is null or undefined
@@ -42,18 +31,17 @@
 
 		return result;
 	}
-</script>
 
-<!-- {JSON.stringify(hostData)} -->
-<!-- {name} -->
+</script>
 <div class="flex flex-col">
 	<div class="flex flex-wrap justify-center items-end p-2 gap-1 bg-gray-100 px-6 rounded-full">
 		<span class="colorful-party-text text-2xl font-bold">
-      {hostData.name}
-			{@html addRainbowColors(hostData.name)}
+			{@html addRainbowColors(name)}
 		</span>
+		<span class="text-xs text-slate-300">{id}</span>
 	</div>
 
+  {#if isShowHostDelete}
 	<div class="text-xs text-slate-200">
 		This host will automatically deleted at {getDeletionTime(created_at)}
 	</div>
@@ -65,6 +53,7 @@
 			}}>🗑️</button
 		>
 	</div>
+  {/if}
 </div>
 
 <dialog id="deleteBuzzHostModal" class="modal">
@@ -73,7 +62,7 @@
 
 		<div class="modal-action">
 			<form method="dialog">
-				<button class="btn btn-md my-2 btn-error mr-3" onclick={() => handleDeleteBuzzHost()}
+				<button class="btn btn-md my-2 btn-error mr-3" onclick={() => hostDataMgr.deleteBuzzHostFromDB()}
 					>Delete this host</button
 				>
 				<button class="btn">Cancel</button>

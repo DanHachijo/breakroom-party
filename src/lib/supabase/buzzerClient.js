@@ -30,6 +30,10 @@ export function deleteBuzzHost(uuid) {
 	return executeSupabaseQuery(supabase.from('buzz_host').delete().eq('uuid', uuid));
 }
 
+export function deleteBuzzHostByHostUUID(host_uuid) {
+	return executeSupabaseQuery(supabase.from('buzz_host').delete().eq('host_uuid', host_uuid));
+}
+
 // USER TABLE
 
 export function fetchBuzzUser(userID, uuid) {

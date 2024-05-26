@@ -1,9 +1,11 @@
 import { fetchBuzzHostByHostUUID, fetchBuzzUsers, fetchBuzzedUsers } from '$lib/supabase/buzzerClient.js';
+import { redirect } from '@sveltejs/kit';
 
 /**
  * @type {import('./$types').PageLoad}
  */
 export async function load({ params }) {
+
 	try {
 		const { host_uuid } = params; // Destructure uuid from params
 
@@ -19,16 +21,19 @@ export async function load({ params }) {
 			props: {
 				buzzHost,
         buzzUsers,
-				buzzGame
+				buzzGame,
 			}
 		};
 	} catch (error) {
 		console.error('Error fetching buzz host:', error.message);
-		return {
-			status: 500,
-			error: {
-				message: 'Internal Server Error'
-			}
-		};
+		throw redirect(302, '/buzzer');
+
+		// return {
+		// 	status: 500,
+		// 	error: {
+		// 		message: 'Internal Server Error'
+		// 	}
+		// };
 	}
 }
+
