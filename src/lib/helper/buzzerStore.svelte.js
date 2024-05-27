@@ -35,7 +35,7 @@ function createHostData() {
 			const newHost = await createBuzzHost(hostNameInput);
 			hostData = newHost[0];
 			setHostUUIDToLocalStorage();
-			console.log(hostData);
+			// console.log(hostData);
 			toastMgr.addToastMsgQue('Buzz host created successfully!');
 		} catch (error) {
 			toastMgr.addToastMsgQue(`Error creating buzz host: ${error.message}`);

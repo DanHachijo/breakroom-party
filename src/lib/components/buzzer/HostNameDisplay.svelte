@@ -31,7 +31,7 @@
 
 </script>
 
-<div class="flex flex-col m-2 bg-gray-100 p-2 px-12 rounded-full ">
+<div class="flex flex-col m-2 bg-gray-100 p-2 px-12 rounded-full border-4 border-purple-600">
 	<div class="flex flex-wrap justify-center items-end p-2 gap-1  ">
 		<span class="colorful-party-text text-2xl font-bold">
       {#if name}

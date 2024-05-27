@@ -47,7 +47,7 @@
         <button class="btn btn-xs" onclick={toggleDeleteBtn}>🗑️</button>
 
 				{#if isShowDeleteBtn}
-        <div class="absolute inset-0 flex items-center justify-around bg-slate-200">
+        <div class="absolute inset-0 flex items-center justify-around bg-slate-200 rounded-md ">
 
 					<button
 						class="btn btn-sm btn-warning"
