@@ -175,16 +175,6 @@
 
 				<dialog id="editModal" class="modal modal-bottom sm:modal-middle">
 					<div class="modal-box">
-						<!-- <form method="dialog">
-							<button
-								class="btn btn-sm  btn-ghost absolute right-2 top-2 text-xl"
-								disabled={itemList?.length <= 1}
-								onclick={() => {
-									removeItemsWithEmptyNames();
-									setItemListToLocalStorage();
-								}}>🆗</button
-							>
-						</form> -->
 						<h3 class="font-bold text-lg">Shuffle list</h3>
 
 						<span class="text-xs"

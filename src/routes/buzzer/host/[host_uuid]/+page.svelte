@@ -12,14 +12,15 @@
 		deleteBuzzUser
 	} from '$lib/supabase/buzzerClient.js';
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
-  import JSConfetti from "js-confetti";
+	import JSConfetti from 'js-confetti';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
+	import JoinUrlDisplay from '$lib/components/buzzer/JoinURLDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
-
-  let jsConfetti;
+	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
+	let jsConfetti;
 
 	let { data } = $props();
-	hostDataMgr.updateData(data.props.buzzHost)
+	hostDataMgr.updateData(data.props.buzzHost);
 
 	let buzzHost = $state(data.props.buzzHost);
 	let Users = $state(data.props.buzzUsers);
@@ -40,10 +41,11 @@
 	});
 
 	$effect(() => {
-    const sortedGameUsers = [...buzzGame].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-    gameUsers = sortedGameUsers;
-});
-
+		const sortedGameUsers = [...buzzGame].sort(
+			(a, b) => new Date(a.created_at) - new Date(b.created_at)
+		);
+		gameUsers = sortedGameUsers;
+	});
 
 	async function updateGameUsers() {
 		try {
@@ -57,8 +59,8 @@
 		try {
 			await clearAllBuzzedUsers(uuid);
 			activeUserIndex = 0;
-      winUserId = null;
-      isBtnDisabled = false;
+			winUserId = null;
+			isBtnDisabled = false;
 			toastMgr.addToastMsgQue('Game is reset', 'alert-info');
 		} catch (error) {
 			console.error('Error reset game:', error.message);
@@ -73,65 +75,66 @@
 		}
 	}
 
-
 	async function answerCorrect(userID, win_num) {
-    try {
-      isBtnDisabled = true;
-      await updateWinCount(userID, win_num, uuid);
-      triggerConfetti();
-      winUserId = userID;
-    } catch (error) {
-      console.error("Error incrementing win_num:", error.message);
-    }
-  }
-
-	// fetchBuzzedUsers(uuid);
-  function triggerConfetti() {
-    jsConfetti.addConfetti({
-      emojiSize: 100,
-      confettiNumber: 30,
-      emojis: ["🚀", "⭐", "💥", "✨", "🌎", "💸"],
-    });
-  }
-
-	async function handleDeleteUser(userID) {
 		try {
-			if (userID && buzzHost.uuid) {
-				const response = await deleteBuzzUser(userID, uuid);
-				toastMgr.addToastMsgQue('User deleted successfully', 'alert-success');
-			} else {
-				console.error('UserID or UUID is missing');
-			}
+			isBtnDisabled = true;
+			await updateWinCount(userID, win_num, uuid);
+			triggerConfetti();
+			winUserId = userID;
 		} catch (error) {
-			console.error('Error deleting user:', error.message);
+			console.error('Error incrementing win_num:', error.message);
 		}
 	}
+
+	// fetchBuzzedUsers(uuid);
+	function triggerConfetti() {
+		jsConfetti.addConfetti({
+			emojiSize: 100,
+			confettiNumber: 30,
+			emojis: ['🚀', '⭐', '💥', '✨', '🌎', '💸']
+		});
+	}
+
+	// async function handleDeleteUser(userID) {
+	// 	try {
+	// 		if (userID && buzzHost.uuid) {
+	// 			const response = await deleteBuzzUser(userID, uuid);
+	// 			toastMgr.addToastMsgQue('User deleted successfully', 'alert-success');
+	// 		} else {
+	// 			console.error('UserID or UUID is missing');
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error deleting user:', error.message);
+	// 	}
+	// }
 
 	onMount(async () => {
 		subscribeGameUsers(uuid, updateGameUsers);
 		subscribeToBuzzUsers(uuid, updateUsers);
 		jsConfetti = new JSConfetti();
-
 	});
 </script>
 
 <div class="flex flex-col justify-between h-full-content">
 	<div id="host-name-section" class=" flex justify-center">
-
-		<HostNameDisplay isShowHostDelete={true}/>
-
-		
-		<!-- <div class="font-semibold p-3">{buzzHost.name}</div> -->
+		<HostNameDisplay isShowHostDelete={true} />
 	</div>
 
-
-	<div id="buzzed-display-section" class="flex overflow-auto min-h-40 justify-center items-start pt-3">
+	<div
+		id="buzzed-display-section"
+		class="flex overflow-auto min-h-40 justify-center items-start pt-3 bg-yellow-200 w-full"
+	>
 		{#if gameUsers.length === 0}
-			<div class="flex flex-col flex-wrap justify-center items-center text-pretty mx-4">
+			<div
+				class="flex flex-col flex-wrap justify-center items-center text-pretty mx-4 "
+			>
 				<div class="font-bold text-4xl py-5">
-					Welcome to <span class="text-red-600">Buzz</span> Button
+					Welcome to <span class="text-red-600">Buzz</span> Game
 				</div>
 				<div class=" text-base">Press the red button 🔴 after the host's announcement...</div>
+				<div class="py-4">
+					<JoinUrlDisplay {uuid} />
+				</div>
 			</div>
 		{/if}
 		<div class="flex flex-col gap-2">
@@ -250,14 +253,14 @@
 		<div class="flex justify-center mb-4 font-bold">⬇️ Score Sheet ⬇️</div>
 	{/if}
 </div>
-<div></div>
 
 <div
 	id="joined-user-section"
 	class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:lg:grid-cols-6"
 >
 	{#each sortedUsersByWinNum as user (user.id)}
-		<div
+	<UserInfoDisplay winUserId={winUserId} userId={user.id} userName={user.name} winNum={user.win_num} uuid={buzzHost.uuid}/>
+		<!-- <div
 			class="relative col-span-1 m-2 rounded-md gap-2 p-2 {winUserId == user.id
 				? 'bg-pink-100'
 				: 'bg-slate-100'}"
@@ -279,12 +282,16 @@
 					</div>
 
 					<div class="flex items-end">
-						<button class="btn btn-xs btn-ghost" onclick={()=>{handleDeleteUser(user.id)}}
-							>🗑️</button
+						<button
+							class="btn btn-xs btn-ghost"
+							onclick={() => {
+								handleDeleteUser(user.id);
+							}}>🗑️</button
 						>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	{/each}
 </div>
+

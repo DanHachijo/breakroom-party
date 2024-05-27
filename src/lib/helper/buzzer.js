@@ -1,37 +1,3 @@
-// export function setHostUUID(uuid) {
-// 	try {
-// 		localStorage.setItem('host_uuid', uuid);
-// 		console.log('host_uuid set successfully');
-// 	} catch (error) {
-// 		console.error('Error setting host_uuid:', error);
-// 	}
-// }
-
-// export function getHostUUID() {
-// 	try {
-// 		const uuid = localStorage.getItem('host_uuid');
-// 		if (uuid) {
-// 			console.log(`host_uuid retrieved successfully: ${uuid}` );
-// 			return uuid;
-// 		} else {
-// 			console.log('No host_uuid found');
-// 			return null;
-// 		}
-// 	} catch (error) {
-// 		console.error('Error getting host_uuid:', error);
-// 		return null;
-// 	}
-// }
-
-// export function deleteHostUUID() {
-// 	try {
-// 		localStorage.removeItem('host_uuid');
-// 		console.log('host_uuid deleted successfully');
-// 	} catch (error) {
-// 		console.error('Error deleting host_uuid:', error);
-// 	}
-// }
-
 // To display the time diffrence for host
 export function calculateTimeDifference(time1, time2) {
 	let diff = Math.abs(new Date(time2) - new Date(time1));
@@ -78,3 +44,9 @@ export function getDeletionTime(created_at) {
 	const deletionTimeFormatted = `${hours}:${minutes} ${amPm}`;
 	return deletionTimeFormatted;
 }
+
+// export function getJoinURL(uuid) {
+//   const isLocalhost = window.location.hostname === 'localhost';
+//   const baseURL = isLocalhost ? 'http://localhost:5173' : `http://${window.location.hostname}`;
+//   return `${baseURL}/buzzer/join/${uuid}`;
+// }

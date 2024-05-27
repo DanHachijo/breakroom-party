@@ -42,7 +42,7 @@ export let policyContent = `
     <p class="mb-4">We do not sell, trade, or otherwise transfer data collected through Google Analytics to third parties without your consent, except as required by law or as necessary to fulfill the purposes outlined in this policy.</p>
 
     <h2 class="text-xl font-bold mb-2">Contact Information</h2>
-    <p class="mb-4">If you have any questions or concerns about our consent policy or data practices, please contact us at <a href="mailto:h18c09@gmail.com" class="text-blue-500">h18c09@gmail.com</a>.</p>
+    <p class="mb-4">If you have any questions or concerns about our consent policy or data practices, please contact us at h18c09@gmail.com.</p>
 
     <h2 class="text-xl font-bold mb-2">Changes to This Policy</h2>
     <p class="mb-4">We reserve the right to update or change this consent policy at any time. Any changes will be effective immediately upon posting on this page.</p>

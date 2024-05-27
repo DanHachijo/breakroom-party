@@ -14,7 +14,7 @@
 </script>
 
 <div class="alert relative p-4 {style} ">
-	<button class="btn btn-ghost btn-circle btn-xs absolute right-1 top-1" onclick={toastMgr.closeToast}
+	<button class="btn btn-ghost btn-circle btn-xs absolute right-1 top-1" onclick={closeToast}
 		>✕</button
 	>
 	<span>{msg} </span>

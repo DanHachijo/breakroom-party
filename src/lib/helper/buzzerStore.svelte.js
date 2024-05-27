@@ -101,6 +101,9 @@ function createHostData() {
 		}
 	}
 
+
+
+
 	return {
 		get hostData() {
 			return hostData;
@@ -114,7 +117,8 @@ function createHostData() {
 
 		setHostUUIDToLocalStorage,
 		getHostUUIDFromLocalStorage,
-		deleteHostUUIDFromLocalStorage
+		deleteHostUUIDFromLocalStorage,
+
 	};
 }
 export const hostDataMgr = createHostData();

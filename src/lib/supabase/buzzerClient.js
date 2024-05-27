@@ -123,6 +123,23 @@ export function subscribeToUserDelete(userID, callback ) {
 		.subscribe();
 }
 
+export function subscribeToUserWinNum(userID, callback) {
+  const channelName = `game_user_${userID}`;
+  const filter = `id=eq.${userID}`;
+  supabase
+    .channel(channelName)
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'buzz_users', filter },
+      (payload) => {
+        if (payload.eventType === 'UPDATE' && payload.new && payload.new.win_num !== undefined) {
+          callback(payload.new);
+        }
+      }
+    )
+    .subscribe();
+}
+
 // // HOST
 export function fetchBuzzUsers(uuid) {
 	return executeSupabaseQuery(supabase.from('buzz_users').select('*').eq('fk_uuid', uuid));

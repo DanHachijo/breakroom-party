@@ -6,23 +6,28 @@
 		handleBuzzButtonClick,
 		subscribeToBuzzBtnUnlock,
 		checkBuzzBtnExistence,
-		subscribeToUserDelete
+		subscribeToUserDelete,
+		subscribeToUserWinNum
 	} from '$lib/supabase/buzzerClient.js';
 	import {
 		getBuzzUserIDFromLocal,
 		setBuzzUserIDToLocal,
-		deleteBuzzUserIDFromLocal
+		deleteBuzzUserIDFromLocal,
 	} from '$lib/helper/buzzer';
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import { onMount } from 'svelte';
 	import BuzzBtn from '$lib/components/buzzer/BuzzBtn.svelte';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
+	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
+	import JSConfetti from 'js-confetti';
+
+	let jsConfetti;
 
 	let { data } = $props();
 
 	hostDataMgr.updateData(data.props.buzzHost)
-
+	
 	let defaultBuzzUser = {
 		id: '',
 		name: '',
@@ -40,7 +45,6 @@
 
 	$effect(() => {
 		if (buzz_game_id !== null && buzz_game_id !== 0) {
-			console.log('Buzz Btn is Locked');
 			toggleBuzzBtn(true);
 			subscribeToBuzzBtnUnlock(userID, buzz_game_id, toggleBuzzBtn);
 		} else {
@@ -75,6 +79,7 @@
 			updateUserID();
 			listenUserDeletion();
 			userNameInput = null;
+			subscribeToUserWinNum(userID, updateAfterWin)
 			toastMgr.addToastMsgQue('User is created', 'alert-info');
 		} catch (error) {
 			showAlert('Error creating user');
@@ -104,6 +109,10 @@
 	}
 
 	// UserDelete
+	function updateAfterWin(data) {
+		buzzUserData = data
+		triggerConfetti()
+	}
 
 	function resetUserInfoAfterDelete() {
 		buzzUserData = defaultBuzzUser;
@@ -112,9 +121,14 @@
 		isBuzzBtnLock = false;
 		deleteBuzzUserIDFromLocal();
 		toastMgr.addToastMsgQue('User is deleted', 'alert-warning');
+		console.log("deleted")
+
 	}
 
 	async function listenUserDeletion() {
+		console.log("Listening delete")
+		console.log(userID)
+
 		try {
 			await subscribeToUserDelete(userID, resetUserInfoAfterDelete);
 		} catch (error) {
@@ -122,17 +136,25 @@
 		}
 	}
 
-	async function handleDeleteUser() {
-		try {
-			if (userID && hostDataMgr.hostData.uuid) {
-				const response = await deleteBuzzUser(userID, hostDataMgr.hostData.uuid);
-			} else {
-				console.error('UserID or UUID is missing');
-			}
-		} catch (error) {
-			console.error('Error deleting user:', error.message);
-		}
+	// async function handleDeleteUser() {
+	// 	try {
+	// 		if (userID && hostDataMgr.hostData.uuid) {
+	// 			const response = await deleteBuzzUser(userID, hostDataMgr.hostData.uuid);
+	// 		} else {
+	// 			console.error('UserID or UUID is missing');
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error deleting user:', error.message);
+	// 	}
+	// }
+	function triggerConfetti() {
+		jsConfetti.addConfetti({
+			emojiSize: 100,
+			confettiNumber: 30,
+			emojis: ['🚀', '⭐', '💥', '✨', '🌎', '💸']
+		});
 	}
+
 
 	onMount(async () => {
 		userID = getBuzzUserIDFromLocal();
@@ -140,8 +162,10 @@
 			await fetchUserInfo();
 			buzz_game_id = await checkBuzzBtnExistence(userID);
 			subscribeToBuzzBtnUnlock(userID, buzz_game_id, toggleBuzzBtn);
-			listenUserDeletion();
+			await listenUserDeletion();
+			await subscribeToUserWinNum(userID, updateAfterWin)
 		}
+		jsConfetti = new JSConfetti();
 	});
 </script>
 
@@ -171,15 +195,17 @@
 		<div id="TOP" class="flex flex-col">
 			<HostNameDisplay />
 
-			<div class="flex flex-col bg-gray-200 p-2 rounded-md">
+			<UserInfoDisplay  userId={userID} userName={buzzUserData.name} winNum={buzzUserData.win_num} uuid={hostDataMgr.hostData.uuid}/>
+
+			<!-- <div class="flex flex-col bg-gray-200 p-2 rounded-md">
 				<div>Welcome, {buzzUserData.name}</div>
 				<div class="text-base text-gray-400">user id:{userID}</div>
 				<button class="btn btn-sm btn-ghost m-2" onclick={() => userDeleteModal.showModal()}
 					>🗑️
 				</button>
-			</div>
+			</div> -->
 
-			<dialog id="userDeleteModal" class="modal">
+			<!-- <dialog id="userDeleteModal" class="modal">
 				<div class="modal-box">
 					<form method="dialog">
 						<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -193,7 +219,7 @@
 						</form>
 					</div>
 				</div>
-			</dialog>
+			</dialog> -->
 		</div>
 
 		<div id="MID" class="text-2xl my-4 flex items-center gap-2">

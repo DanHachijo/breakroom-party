@@ -5,7 +5,7 @@ export function copyToClipboard(url) {
 		.writeText(url)
 		.then(() => {
 			console.log('URL copied to clipboard:', url);
-			toastMgr.addToastMsgQue('copied it to clipboard');
+			toastMgr.addToastMsgQue('Copied !');
 		})
 		.catch((error) => {
 			console.error('Error copying URL to clipboard:', error);
