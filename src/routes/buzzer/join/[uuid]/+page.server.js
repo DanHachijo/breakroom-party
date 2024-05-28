@@ -19,11 +19,5 @@ export async function load({ params }) {
 	} catch (error) {
 		console.error('Error fetching buzz host:', error.message);
 		throw redirect(302, '/buzzer');
-		// return {
-		// 	status: 500,
-		// 	error: {
-		// 		message: 'Internal Server Error'
-		// 	}
-		// };
 	}
 }

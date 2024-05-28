@@ -212,11 +212,11 @@
 												<div class="flex flex-col min-w-6">
 													<button
 														disabled={isBtnDisabled}
-														class="btn btn-xs rounded-none rounded-tr-lg btn-info"
+														class="btn btn-xs rounded-none rounded-tr-lg btn-success"
 														onclick={() => scoreNum++}>+</button
 													>
 													<button
-														class="btn btn-xs rounded-none rounded-br-lg btn-info"
+														class="btn btn-xs rounded-none rounded-br-lg btn-success"
 														onclick={() => (scoreNum >= 2 ? scoreNum-- : '')}
 														disabled={scoreNum == 1 || isBtnDisabled}>-</button
 													>
