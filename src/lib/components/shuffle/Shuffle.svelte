@@ -2,9 +2,18 @@
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import { onMount } from 'svelte';
 	import JSConfetti from 'js-confetti';
+	import { templateList } from '$lib/helper/shuffleTemplateList';
 
-	// PROPS
-	let { tabNum, itemListDefault, badgeColor, toggleShuffleParent } = $props();
+	let { tabNum, badgeColor, toggleShuffleParent } = $props();
+
+	function extractItemListDefault(index) {
+		if (index >= 0 && index < templateList.length) {
+			return templateList[index].list;
+		} else {
+			return [];
+		}
+	}
+	const itemListDefault = extractItemListDefault(tabNum);
 
 	// CONFETTI
 	let jsConfetti;
@@ -15,6 +24,8 @@
 		jsConfetti.addConfetti();
 	}
 	// END CONFETTI
+
+	itemListDefault;
 
 	const ITEM_LIST_KEY = `itemList_${tabNum || 1}`;
 
@@ -52,9 +63,12 @@
 		}
 	}
 
-	function resetToDefaultItemList() {
-		itemList = [...itemListDefault];
-		setItemListToLocalStorage();
+	function setTemplateList(id) {
+		const selectedTemplate = templateList.find((item) => item.id === id);
+		if (selectedTemplate) {
+			itemList = [...selectedTemplate.list];
+			setItemListToLocalStorage();
+		}
 	}
 
 	let isSelectOnlyOnce = $state(false);
@@ -76,11 +90,11 @@
 		}
 	}
 
-	$effect(() => {
-		if (countSelectedFalse <= 1 && isSelectOnlyOnce) {
-			toastMgr.addToastMsgQue("We don't have enough items shuffle😅");
-		}
-	});
+	// $effect(() => {
+	// 	if (countSelectedFalse <= 1 && isSelectOnlyOnce) {
+	// 		toastMgr.addToastMsgQue("We don't have enough items shuffle😅");
+	// 	}
+	// });
 
 	// EDIT LIST
 	let itemListNames = $state([]);
@@ -155,18 +169,28 @@
 </script>
 
 <div class="">
-	<div class="flex justify-center md:justify-between flex-wrap items-center gap-2 bg-slate-200">
+	<div class="flex justify-center md:justify-between flex-wrap items-center gap-2 {badgeColor}">
 		<div class="p-2">
 			<div class="flex gap-2 flex-wrap pt-4 pl-2 md:p-2">
+				<div class="dropdown dropdown-start">
+					<div tabindex="0" role="button" class=" btn btn-sm btn-accent btn-outline">
+						USE TEMPALTE
+					</div>
+					<div class="menu dropdown-content z-[1] p-2 shadow bg-slate-200 rounded-box w-52 mt-4 gap-2">
+
+					{#each templateList as item (item.id)}
+						<button
+						class="btn btn-xs btn-ghost"
+							onclick={() => {
+								setTemplateList(item.id);
+							}}>{item.name}</button
+						>
+					{/each}
+					</div>
+				</div>
+
 				<button
-					class="btn btn-md "
-					onclick={resetToDefaultItemList}
-					disabled={isShuffling}
-				>
-					LOAD DEFAULT
-				</button>
-				<button
-					class="btn btn-md btn-secondary"
+					class="btn btn-sm btn-accent btn-outline"
 					onclick={() => editModal.showModal()}
 					disabled={isShuffling}
 				>
@@ -195,7 +219,6 @@
 
 						<form method="dialog">
 							<div class="flex justify-end">
-
 								<button
 									class="btn btn-sm btn-accent mt-2"
 									disabled={itemList?.length <= 1}
@@ -210,7 +233,7 @@
 				</dialog>
 
 				<button
-					class="btn btn-md btn-primary"
+					class="btn btn-sm btn-accent jello-horizontal"
 					onclick={pickRandomItem}
 					disabled={isShuffling ||
 						(countSelectedFalse <= 1 && isSelectOnlyOnce) ||
@@ -224,7 +247,7 @@
 			<div class="flex justify-start items-center w-full gap-2 flex-wrap p-2">
 				<div class="form-control sm:w-64">
 					<label class="label cursor-pointer flex justify-end">
-						<span class="label-text p-1 mr-2">
+						<span class="label-text p-1 mr-2 text-slate-100">
 							{isSelectOnlyOnce ? 'Disabled selected items' : 'Select from all items'}
 						</span>
 						<input
@@ -249,7 +272,7 @@
 		{#if itemList.length > 1}
 			{#each itemList as item, index}
 				<div
-					class="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex justify-center {item.isSelected &&
+					class="col-span-12  md:col-span-6  flex justify-center {item.isSelected &&
 					isSelectOnlyOnce &&
 					highlightedItem.id !== item.id
 						? 'opacity-50'
@@ -257,7 +280,7 @@
 				>
 					<div class="w-full px-4 sm:px-1">
 						<div
-							class=" relative py-3 rounded-md min-h-12	 transition-transform duration-100 {highlightedItem ===
+							class=" relative py-3 rounded-md min-h-12 transition-transform duration-100 {highlightedItem ===
 							item
 								? 'bg-blue-400 text-slate-100	'
 								: 'bg-gray-200'}"
@@ -266,7 +289,7 @@
 								<div class="badge {badgeColor} border-none absolute -top-2 -left-1">
 									{index + 1}
 								</div>
-								<span class="truncate pl-2 md:pl-3 font-bold">
+								<span class="truncate pl-2 md:px-3 font-bold">
 									{item.name}
 								</span>
 								{#if isSelectOnlyOnce}
@@ -300,6 +323,3 @@
 		</h3>
 	</div>
 </dialog>
-
-
-

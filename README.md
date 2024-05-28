@@ -25,7 +25,6 @@ The Buzzer Button Game is perfect for quiz-style games where players can buzz in
 
 - Visit [breakroomparty.com](https://breakroomparty.com) to access the mini-games.
 - Choose between the Shuffle Game or the Buzzer Button Game.
-- Customize the Shuffle Game options or start the Buzzer Button Game to begin playing.
 
 ## Contributing
 

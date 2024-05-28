@@ -94,19 +94,6 @@
 		});
 	}
 
-	// async function handleDeleteUser(userID) {
-	// 	try {
-	// 		if (userID && buzzHost.uuid) {
-	// 			const response = await deleteBuzzUser(userID, uuid);
-	// 			toastMgr.addToastMsgQue('User deleted successfully', 'alert-success');
-	// 		} else {
-	// 			console.error('UserID or UUID is missing');
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error deleting user:', error.message);
-	// 	}
-	// }
-
 	onMount(async () => {
 		subscribeGameUsers(uuid, updateGameUsers);
 		subscribeToBuzzUsers(uuid, updateUsers);
@@ -241,7 +228,7 @@
 					>
 					{#if isBtnDisabled}
 						<button
-							class="btn btn-lg btn-info shadow-lg"
+							class="btn btn-lg btn-accent btn-outline shadow-lg"
 							onclick={() => {
 								isBtnDisabled = false;
 							}}>BACK</button

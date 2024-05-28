@@ -50,13 +50,13 @@
         <div class="absolute inset-0 flex items-center justify-around bg-slate-200 rounded-md ">
 
 					<button
-						class="btn btn-sm btn-warning"
+						class="btn btn-sm btn-warning "
 						onclick={() => {
 							handleDeleteUser(userId);
 						}}>DELETE</button
 					>
           <button
-          class="btn btn-sm btn-info"
+          class="btn btn-sm btn-info x"
           onclick={toggleDeleteBtn}>CANCEL</button
         >
         </div>
