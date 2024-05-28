@@ -13,6 +13,9 @@ Visit us at [breakroomparty.com](https://breakroomparty.com).
 
 ## Features
 
+- No need to sign up.
+- The record in the data base will deleted after 3 hours from created time.
+
 ### Shuffle Game
 
 The Shuffle Game allows users to decide who speaks next or select a random topic for discussion. It's fully customizable with a list of options, and it includes a function to disable items once they're selected.
