@@ -151,7 +151,7 @@
 		jsConfetti.addConfetti({
 			emojiSize: 100,
 			confettiNumber: 30,
-			emojis: ['🚀', '⭐', '💥', '✨', '🌎', '💸']
+			emojis: ['🚀', '⭐', '💥', '✨', '🌎', '😊']
 		});
 	}
 
@@ -195,38 +195,15 @@
 		<div id="TOP" class="flex flex-col">
 			<HostNameDisplay />
 
-			<UserInfoDisplay  userId={userID} userName={buzzUserData.name} winNum={buzzUserData.win_num} uuid={hostDataMgr.hostData.uuid}/>
-
-			<!-- <div class="flex flex-col bg-gray-200 p-2 rounded-md">
-				<div>Welcome, {buzzUserData.name}</div>
-				<div class="text-base text-gray-400">user id:{userID}</div>
-				<button class="btn btn-sm btn-ghost m-2" onclick={() => userDeleteModal.showModal()}
-					>🗑️
-				</button>
-			</div> -->
-
-			<!-- <dialog id="userDeleteModal" class="modal">
-				<div class="modal-box">
-					<form method="dialog">
-						<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-					</form>
-					<p class="py-4">Are your sure you want to delete the user, ?</p>
-					<div class="modal-action">
-						<form method="dialog">
-							<div class="flex justify-end">
-								<button class="btn btn-sm btn-warning" onclick={handleDeleteUser}>DELETE</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</dialog> -->
 		</div>
 
-		<div id="MID" class="text-2xl my-4 flex items-center gap-2">
-			<div class="py-12 md:scale-125 lg:scale-150">
+		<div id="MID" class="text-2xl flex items-center gap-2">
+			<div class=" md:scale-125 ">
 				<BuzzBtn {handleBtnClick} {isBuzzBtnLock} />
 			</div>
 		</div>
-		<div id="BOT" class="flex flex-col justify-center items-center"></div>
+		<div id="BOT" class="flex flex-col justify-center items-center">
+			<UserInfoDisplay  userId={userID} userName={buzzUserData.name} winNum={buzzUserData.win_num} uuid={hostDataMgr.hostData.uuid}/>
+		</div>
 	{/if}
 </div>

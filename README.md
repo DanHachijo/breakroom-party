@@ -1,38 +1,36 @@
-# create-svelte
+# Break Room Party
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Welcome to Break Room Party! This site aims to provide fun and interactive mini-games for virtual gatherings, meetings, or just casual hangouts.
 
-## Creating a project
+## Site URL
 
-If you're seeing this, you've probably already done this step. Congrats!
+Visit us at [breakroomparty.com](https://breakroomparty.com).
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Technologies Used
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- Svelte 5: The latest version of the Svelte framework for building reactive web applications.
+- Supabase: Backend-as-a-Service platform for managing data and authentication.
 
-## Developing
+## Features
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Shuffle Game
 
-```bash
-npm run dev
+The Shuffle Game allows users to decide who speaks next or select a random topic for discussion. It's fully customizable with a list of options, and it includes a function to disable items once they're selected.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Buzzer Button Game
 
-## Building
+The Buzzer Button Game is perfect for quiz-style games where players can buzz in to answer questions or participate in activities.
 
-To create a production version of your app:
+## Usage
 
-```bash
-npm run build
-```
+- Visit [breakroomparty.com](https://breakroomparty.com) to access the mini-games.
+- Choose between the Shuffle Game or the Buzzer Button Game.
+- Customize the Shuffle Game options or start the Buzzer Button Game to begin playing.
 
-You can preview the production build with `npm run preview`.
+## Contributing
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Contributions are welcome! If you have a feature request or find a bug, please don't hesitate to open an issue or submit a pull request on GitHub.
+
+## Contact
+
+Feel free to contact me through GitHub if you have any questions, feature requests, or bug reports.

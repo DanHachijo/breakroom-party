@@ -2,7 +2,7 @@
 	let { handleBtnClick, isBuzzBtnLock } = $props();
 </script>
 
-<div class=" flex flex-col justify-center items-center gap-2">
+<div class=" flex flex-col justify-center items-center gap-2 ">
 	<div class="button-frame plastic">
 		<button
 			class="the-button plastic z-10 {isBuzzBtnLock ? 'disabled' : ''}"
@@ -82,12 +82,12 @@
 		background: #cc0000;
 		border-radius: 50%;
 		display: block;
-		height: 8em;
+		height: 7em;
 		margin: -3.4em auto 0;
 		padding: 0.55em;
 		position: relative;
 		top: 50%;
-		width: 8em;
+		width: 7em;
 		z-index: 20;
 	}
 

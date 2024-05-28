@@ -26,7 +26,6 @@
 	let Users = $state(data.props.buzzUsers);
 	let buzzGame = $state(data.props.buzzGame);
 	let gameUsers = $state([]);
-	// const host_uuid = data.props.buzzHost.host_uuid;
 	const uuid = data.props.buzzHost.uuid;
 
 	// SCORE BOARD
