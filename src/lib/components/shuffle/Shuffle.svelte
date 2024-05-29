@@ -168,29 +168,30 @@
 	});
 </script>
 
-<div class="">
-	<div class="flex justify-center md:justify-between flex-wrap items-center gap-2 {badgeColor}">
+<div class="{badgeColor}  rounded-md">
+	<div class="flex justify-center md:justify-between flex-wrap items-center">
 		<div class="p-2">
 			<div class="flex gap-2 flex-wrap pt-4 pl-2 md:p-2">
 				<div class="dropdown dropdown-start">
-					<div tabindex="0" role="button" class=" btn btn-sm btn-accent btn-outline">
-						USE TEMPALTE
-					</div>
-					<div class="menu dropdown-content z-[1] p-2 shadow bg-slate-200 rounded-box w-52 mt-4 gap-2">
-
-					{#each templateList as item (item.id)}
-						<button
-						class="btn btn-xs btn-ghost"
-							onclick={() => {
-								setTemplateList(item.id);
-							}}>{item.name}</button
-						>
-					{/each}
+					<button class=" btn btn-sm btn-accent btn-outline border-2" disabled={isShuffling}>
+						<div tabindex="0" role="button">USE TEMPALTE</div>
+					</button>
+					<div
+						class="menu dropdown-content z-[1] p-2 shadow bg-slate-50 rounded-box w-52 mt-4 gap-2"
+					>
+						{#each templateList as item (item.id)}
+							<button
+								class="btn btn-xs btn-ghost"
+								onclick={() => {
+									setTemplateList(item.id);
+								}}>{item.name}</button
+							>
+						{/each}
 					</div>
 				</div>
 
 				<button
-					class="btn btn-sm btn-accent btn-outline"
+					class="btn btn-sm btn-accent btn-outline border-2"
 					onclick={() => editModal.showModal()}
 					disabled={isShuffling}
 				>
@@ -247,8 +248,8 @@
 			<div class="flex justify-start items-center w-full gap-2 flex-wrap p-2">
 				<div class="form-control sm:w-64">
 					<label class="label cursor-pointer flex justify-end">
-						<span class="label-text p-1 mr-2 text-slate-100">
-							{isSelectOnlyOnce ? 'Disabled selected items' : 'Select from all items'}
+						<span class="label-text p-1 mr-2 text-slate-100 {isShuffling ? 'opacity-50' : ''}">
+							{isSelectOnlyOnce ? 'Disable \"Select Only Once\"' : 'Enable \"Select Only Once\"'}
 						</span>
 						<input
 							disabled={isShuffling}
@@ -268,11 +269,14 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-12 justify-center gap-4 mt-8">
+	<div class="px-3">
+		<hr />
+	</div>
+	<div class="grid grid-cols-12 justify-center gap-4 px-2 py-4">
 		{#if itemList.length > 1}
 			{#each itemList as item, index}
 				<div
-					class="col-span-12  md:col-span-6  flex justify-center {item.isSelected &&
+					class="col-span-12 md:col-span-6 flex justify-center {item.isSelected &&
 					isSelectOnlyOnce &&
 					highlightedItem.id !== item.id
 						? 'opacity-50'
@@ -282,11 +286,13 @@
 						<div
 							class=" relative py-3 rounded-md min-h-12 transition-transform duration-100 {highlightedItem ===
 							item
-								? 'bg-blue-400 text-slate-100	'
-								: 'bg-gray-200'}"
+								? 'bg-yellow-300 	'
+								: 'bg-gray-100'}"
 						>
 							<div class="flex justify-between">
-								<div class="badge {badgeColor} border-none absolute -top-2 -left-1">
+								<div
+									class="badge text-slate-50 font-bold border-none bg-slate-500 absolute -top-2 -left-1 -rotate-12"
+								>
 									{index + 1}
 								</div>
 								<span class="truncate pl-2 md:px-3 font-bold">
@@ -311,11 +317,11 @@
 
 <!-- MODAL SHOW SELECTED ITEM -->
 <dialog id="modalSelectedItem" class="modal">
-	<div class="modal-box min-h-40 flex flex-col justify-center item-center bg-blue-400">
+	<div class="modal-box min-h-40 flex flex-col justify-center item-center bg-slate-100">
 		<form method="dialog">
 			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
-		<h3 class=" font-bold text-lg flex justify-center text-slate-100">
+		<h3 class=" font-bold text-lg flex justify-center">
 			{selectedItem.name}
 			{#if isSelectOnlyOnce}
 				✅
@@ -323,3 +329,13 @@
 		</h3>
 	</div>
 </dialog>
+
+<style>
+	.bg-gradient {
+		background-image: radial-gradient(
+			circle farthest-corner at 48.4% 47.5%,
+			rgba(122, 183, 255, 1) 0%,
+			rgba(21, 83, 161, 1) 90%
+		);
+	}
+</style>
