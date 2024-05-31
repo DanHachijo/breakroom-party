@@ -12,7 +12,7 @@ import { goto } from '$app/navigation';
 function createHostData() {
 	let hostData = $state();
 
-	let defaultObject = {
+	const defaultObject = {
 		id: null,
 		name: null,
 		uuid: null,
@@ -20,14 +20,10 @@ function createHostData() {
 		created_at: ''
 	};
 
-	hostData = defaultObject;
+  hostData = { ...defaultObject };
 
 	function updateData(newData) {
-		hostData = newData;
-	}
-
-	function deleteData() {
-		updateData(defaultObject);
+    hostData = { ...newData };
 	}
 
 	async function createBuzzHostDB(hostNameInput) {
@@ -45,11 +41,18 @@ function createHostData() {
 	// CRUD Buzz Host
 	async function deleteBuzzHostFromDB() {
 		try {
-			console.log(hostData.host_uuid);
+			// console.log(hostData.host_uuid);
+      console.log(hostData.host_uuid)
 			await deleteBuzzHostByHostUUID(hostData.host_uuid);
-			updateData(defaultObject);
-			toastMgr.addToastMsgQue('Buzz host deleted successfully!');
 			deleteHostUUIDFromLocalStorage();
+      console.log(defaultObject)
+
+			updateData(defaultObject);
+      console.log(defaultObject)
+
+			toastMgr.addToastMsgQue('Buzz host deleted successfully!');
+      console.log(hostData.host_uuid)
+
 			goto('/buzzer');
 		} catch (error) {
 			toastMgr.addToastMsgQue(`Error deleting buzz host: ${error.message}`);
@@ -109,7 +112,6 @@ function createHostData() {
 			return hostData;
 		},
 		updateData,
-		deleteData,
 
 		createBuzzHostDB,
 		deleteBuzzHostFromDB,

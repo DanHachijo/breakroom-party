@@ -1,57 +1,55 @@
 <script>
-	import {  getDeletionTime } from '$lib/helper/buzzer';
+	import { getDeletionTime } from '$lib/helper/buzzer';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 
 	let { name, created_at, host_uuid, id, uuid } = hostDataMgr.hostData || {};
 
-  let { isShowHostDelete = false } = $props() 
+	let { isShowHostDelete = false } = $props();
 
-	function addRainbowColors(text) {
-		if (!text) return '';
+	// function addRainbowColors(text) {
+	// 	if (!text) return '';
 
-		const colors = [
-			'text-red-500',
-			'text-orange-500',
-			'text-yellow-500',
-			'text-green-500',
-			'text-blue-500',
-			'text-indigo-500',
-			'text-purple-500',
-			'text-pink-500'
-		];
+	// 	const colors = [
+	// 		'text-red-500',
+	// 		'text-orange-500',
+	// 		'text-yellow-500',
+	// 		'text-green-500',
+	// 		'text-blue-500',
+	// 		'text-indigo-500',
+	// 		'text-purple-500',
+	// 		'text-pink-500'
+	// 	];
 
-		let result = '';
-		for (let i = 0; i < text.length; i++) {
-			const colorClass = colors[i % colors.length];
-			result += `<span class="${colorClass}">${text[i]}</span>`;
-		}
+	// 	let result = '';
+	// 	for (let i = 0; i < text.length; i++) {
+	// 		const colorClass = colors[i % colors.length];
+	// 		result += `<span class="${colorClass}">${text[i]}</span>`;
+	// 	}
 
-		return result;
-	}
-
+	// 	return result;
+	// }
+  
 </script>
 
-<div class="flex flex-col m-2 bg-gray-100 p-2 px-12 rounded-full border-4 border-purple-600">
-	<div class="flex flex-wrap justify-center items-end p-2 gap-1  ">
-		<span class="colorful-party-text text-2xl font-bold">
-      {#if name}
-			{@html addRainbowColors(name)}
-      {/if}
+<div class="flex flex-col m-2 p-2 px-12 rounded-md bg-slate-200">
+	<div class="flex flex-wrap justify-center items-end p-2 gap-1">
+		<span class=" text-xl font-bold">
+      {name}
 		</span>
-		<!-- <span class="text-xs text-sl'ate-400">{id}</span> -->
 	</div>
 
-  {#if isShowHostDelete}
-	<div class="text-xs text-slate-400">
-		Available till {getDeletionTime(created_at)} 		<button
-    class="btn btn-ghost btn-xs"
-    aria-label="Delete hosted game"
-    onclick={() => {
-      deleteBuzzHostModal.showModal();
-    }}>🗑️</button
-  >
-	</div>
-  {/if}
+	{#if isShowHostDelete}
+		<div class="text-xs text-slate-500">
+			Available till {getDeletionTime(created_at)}
+			<button
+				class="btn btn-ghost btn-xs"
+				aria-label="Delete hosted game"
+				onclick={() => {
+					deleteBuzzHostModal.showModal();
+				}}>🗑️</button
+			>
+		</div>
+	{/if}
 </div>
 
 <dialog id="deleteBuzzHostModal" class="modal">
@@ -60,8 +58,9 @@
 
 		<div class="modal-action">
 			<form method="dialog">
-				<button class="btn btn-md my-2 btn-error mr-3" onclick={() => hostDataMgr.deleteBuzzHostFromDB()}
-					>Delete this host</button
+				<button
+					class="btn btn-md my-2 btn-error mr-3"
+					onclick={() => hostDataMgr.deleteBuzzHostFromDB()}>Delete this host</button
 				>
 				<button class="btn">Cancel</button>
 			</form>

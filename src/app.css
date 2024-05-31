@@ -12,16 +12,16 @@
 }
 
 .hover-scale {
-  transition-property: transform;
-  transition-duration: 300ms;
+	transition-property: transform;
+	transition-duration: 300ms;
 }
 
 .hover-scale:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .hover-scale:not(:hover) {
-  transform: scale(1);
+	transform: scale(1);
 }
 
 /* ----------------------------------------------
@@ -36,6 +36,11 @@
  * animation jello-horizontal
  * ----------------------------------------
  */
+.jello-horizontal {
+	-webkit-animation: jello-horizontal 0.9s both;
+	animation: jello-horizontal 0.9s both;
+}
+
 @-webkit-keyframes jello-horizontal {
 	0% {
 		-webkit-transform: scale3d(1, 1, 1);

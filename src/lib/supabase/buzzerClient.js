@@ -106,7 +106,7 @@ export function subscribeToBuzzBtnUnlock(userID, buzz_game_id, unlockFunc) {
 		.subscribe();
 }
 
-export function subscribeToUserDelete(userID, callback ) {
+export function subscribeToUserDelete(userID, callback) {
 	const channelName = `game_user_${userID}`;
 	const filter = `id=eq.${userID}`;
 	supabase
@@ -116,7 +116,7 @@ export function subscribeToUserDelete(userID, callback ) {
 			{ event: '*', schema: 'public', table: 'buzz_users', filter },
 			(payload) => {
 				if (payload.eventType === 'DELETE' && payload.old.id === userID) {
-					callback()
+					callback();
 				}
 			}
 		)
@@ -124,20 +124,20 @@ export function subscribeToUserDelete(userID, callback ) {
 }
 
 export function subscribeToUserWinNum(userID, callback) {
-  const channelName = `game_user_${userID}`;
-  const filter = `id=eq.${userID}`;
-  supabase
-    .channel(channelName)
-    .on(
-      'postgres_changes',
-      { event: 'UPDATE', schema: 'public', table: 'buzz_users', filter },
-      (payload) => {
-        if (payload.eventType === 'UPDATE' && payload.new && payload.new.win_num !== undefined) {
-          callback(payload.new);
-        }
-      }
-    )
-    .subscribe();
+	const channelName = `game_user_${userID}`;
+	const filter = `id=eq.${userID}`;
+	supabase
+		.channel(channelName)
+		.on(
+			'postgres_changes',
+			{ event: 'UPDATE', schema: 'public', table: 'buzz_users', filter },
+			(payload) => {
+				if (payload.eventType === 'UPDATE' && payload.new && payload.new.win_num !== undefined) {
+					callback(payload.new);
+				}
+			}
+		)
+		.subscribe();
 }
 
 // // HOST
@@ -155,7 +155,7 @@ export async function subscribeGameUsers(uuid, callback) {
 				'postgres_changes',
 				{ event: '*', schema: 'public', table: 'buzz_game', filter: filter },
 				async (payload) => {
-					console.log("Change received in buzzed_users!", payload);
+					console.log('Change received in buzzed_users!', payload);
 					await callback();
 				}
 			)
@@ -166,15 +166,35 @@ export async function subscribeGameUsers(uuid, callback) {
 }
 
 export function subscribeToBuzzUsers(uuid, callback) {
-  const filter = `fk_uuid=eq.${uuid}`;
+	const filter = `fk_uuid=eq.${uuid}`;
 
-  supabase.channel(`buzz_game_users`)
-    .on("postgres_changes", { event: "*", schema: "public", table: "buzz_users", filter }, async () => {
-      await callback(uuid);
-    })
-    .subscribe();
+	supabase
+		.channel(`buzz_game_users`)
+		.on(
+			'postgres_changes',
+			{ event: '*', schema: 'public', table: 'buzz_users', filter },
+			async () => {
+				await callback(uuid);
+			}
+		)
+		.subscribe();
 }
 
 export function updateWinCount(userId, win_num, uuid) {
-  return executeSupabaseQuery(supabase.from("buzz_users").update({ win_num }).eq("id", userId).eq("fk_uuid", uuid).select());
+	return executeSupabaseQuery(
+		supabase.from('buzz_users').update({ win_num }).eq('id', userId).eq('fk_uuid', uuid).select()
+	);
+}
+
+export async function getUUIDByPass(pass, callback) {
+	try {
+		const data = await executeSupabaseQuery(
+			supabase.from('buzz_host').select('uuid').eq('pass', pass)
+		);
+		console.log(data);
+		return data[0];
+	} catch (err) {
+		console.error('Error fetching UUID:', err);
+		throw err;
+	}
 }

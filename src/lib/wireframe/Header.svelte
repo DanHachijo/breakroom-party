@@ -23,7 +23,6 @@
 			<div class="menu dropdown-content z-[1] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
 			<button class="btn btn-link" onclick={() => privacyConsentModal.showModal()}>Privacy Policy</button>
 			<button class="btn btn-link" onclick={goToGitHub}>GitHub</button>
-
 			</div>
 		</div>
 
