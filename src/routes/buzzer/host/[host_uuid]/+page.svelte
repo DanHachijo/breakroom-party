@@ -14,7 +14,7 @@
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import JSConfetti from 'js-confetti';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
-	import JoinUrlDisplay from '$lib/components/buzzer/JoinURLDisplay.svelte';
+	// import JoinUrlDisplay from '$lib/components/buzzer/JoinURLDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
 	let jsConfetti;
@@ -117,7 +117,7 @@
 				</div>
 				<div class=" text-base">Press the red button 🔴 after the host's announcement...</div>
 				<div class="py-4">
-					<JoinUrlDisplay {uuid} />
+					<!-- <JoinUrlDisplay {uuid} /> -->
 				</div>
 			</div>
 		{/if}

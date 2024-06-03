@@ -17,7 +17,8 @@ function createHostData() {
 		name: null,
 		uuid: null,
 		host_uuid: null,
-		created_at: ''
+		created_at: '',
+		pass: null
 	};
 
   hostData = { ...defaultObject };
