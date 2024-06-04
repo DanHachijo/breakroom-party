@@ -18,3 +18,7 @@ import { goto } from '$app/navigation';
 export function navigate(url) {
  setTimeout(() => goto(url), 0);
 }
+
+export function goToGitHub() {
+	window.open('https://github.com/DanNakatoshi/breakroom-party', '_blank');
+}

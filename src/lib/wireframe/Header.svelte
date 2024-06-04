@@ -1,9 +1,7 @@
 <script>
 	// import { goto } from '$app/navigation';
-import { navigate } from '$lib/helper/global'
-	function goToGitHub() {
-		window.open('https://github.com/DanNakatoshi/breakroom-party', '_blank');
-	}
+import { navigate, goToGitHub } from '$lib/helper/global'
+
 	
 </script>
 
@@ -40,3 +38,4 @@ import { navigate } from '$lib/helper/global'
 		</div>
 	</div>
 </div>
+
