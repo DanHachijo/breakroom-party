@@ -19,26 +19,28 @@
 	}
 </script>
 
-<div class="grid grid-cols-12 gap-4 pt-4 px-2">
-	{#each pages as pageNum, index (index)}
-		<button
-			disabled={isShuffleParent}
-			class="btn btn-sm col-span-3 rounded-none rounded-t-md border-none text-slate-50 {currentPage ===
-			pageNum
-				? badgeColorOption[index]
-				: ''}"
-			onclick={() => showPage(pageNum)}
+<div class="">
+	<div class="grid grid-cols-12 gap-4 pt-4 px-2">
+		{#each pages as pageNum, index (index)}
+			<button
+				disabled={isShuffleParent}
+				class="btn btn-sm col-span-3 rounded-none rounded-t-md border-none text-slate-50 {currentPage ===
+				pageNum
+					? badgeColorOption[index]
+					: ''}"
+				onclick={() => showPage(pageNum)}
 			>
-			<div class="badge text-slate-50 {badgeColorOption[index]}  badge-md border-none">
-				LIST
-				{index + 1}
-			</div>
-		</button>
+				<div class="badge text-slate-50 {badgeColorOption[index]}  badge-md border-none">
+					<span class="hidden md:block">LIST</span>
+					{index + 1}
+				</div>
+			</button>
+		{/each}
+	</div>
+
+	{#each pages as pageNum, index (index)}
+		{#if currentPage === pageNum}
+			<Shuffle tabNum={pageNum} badgeColor={badgeColorOption[index]} {toggleShuffleParent} />
+		{/if}
 	{/each}
 </div>
-
-{#each pages as pageNum, index (index)}
-	{#if currentPage === pageNum}
-		<Shuffle tabNum={pageNum} badgeColor={badgeColorOption[index]} {toggleShuffleParent} />
-	{/if}
-{/each}
