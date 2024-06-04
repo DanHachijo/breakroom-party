@@ -14,7 +14,7 @@ import { navigate, goToGitHub } from '$lib/helper/global'
 		>
 			Games
 		</div>
-		<div class="menu dropdown-content z-[1] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
+		<div class="menu dropdown-content z-[10] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
 			<!-- <a href="/shuffle" class="btn btn-accent btn-sm" >Shuffle Game</a>
 			<a href="/buzzer" class="btn btn-accent btn-sm" >Buzzer Button</a> -->
 
@@ -30,7 +30,7 @@ import { navigate, goToGitHub } from '$lib/helper/global'
 
 	<div id="right" class="dropdown dropdown-end">
 		<div tabindex="0" role="button" class="btn btn-ghost rounded-btn text-slate-50">☰</div>
-		<div class="menu dropdown-content z-[1] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
+		<div class="menu dropdown-content z-[10] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
 			<button class="btn btn-link" onclick={() => privacyConsentModal.showModal()}
 				>Privacy Policy</button
 			>
