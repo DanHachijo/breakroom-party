@@ -15,6 +15,6 @@ import { goto } from '$app/navigation';
 // 		});
 // }
 
-export async function navigate(url) {
-	await setTimeout(() => goto(url), 0);
+export function navigate(url) {
+ setTimeout(() => goto(url), 0);
 }
