@@ -3,7 +3,7 @@
   import { browser } from '$app/environment';
   import { fly } from 'svelte/transition';
 
-	let { btnName = 'Open', items = {} } = $props();
+	let { btnName = 'Open', items = {}, postion = 'left-0'} = $props();
 
   let dropdownRef;
 	let isDropdownOpen = $state(false);
@@ -42,7 +42,7 @@
 	</button>
 
 	{#if isDropdownOpen}
-		<div class="absolute left-0  w-48 bg-white shadow-lg rounded-md p-2" transition:fly={{ y: -10, duration: 200 }}>
+		<div class="absolute z-[10]  w-48 bg-slate-600 shadow-lg rounded-md p-2 {postion}" transition:fly={{ y: -10, duration: 200 }}>
 			{#each items as item}
 				{@render dropdownItem(item)}
 			{/each}
