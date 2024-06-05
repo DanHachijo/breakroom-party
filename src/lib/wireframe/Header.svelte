@@ -1,18 +1,38 @@
 <script>
 	// import { goto } from '$app/navigation';
 	import { navigate, goToGitHub } from '$lib/helper/global';
+	import Dropdown from '$lib/wireframe/Dropdown.svelte';
+
+	let items = ['Shuffle Game', 'Buzzer Button', 'Privacy Policy'];
+
+	let dropdownItems = [
+		{
+			name:"Shuffle Game",
+			func: () => navigate('/shuffle')
+		},
+		{
+			name:"Buzzer Button",
+			func: () => navigate('/buzzer')
+		},
+	]
+
 </script>
+
+
 
 <div class="navbar flex justify-between rounded-b-lg bg-slate-700">
   <div id="left" class="dropdown dropdown-start z-[1]">
-    <button
+		<Dropdown items={dropdownItems}/>
+
+
+    <!-- <summary
       class="btn btn-ghost rounded-btn text-slate-50 jello-horizontal"
       aria-haspopup="true"
       aria-expanded="false"
       aria-controls="games-menu"
     >
       Games
-    </button>
+    </summary>
     <ul
       id="games-menu"
       class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
@@ -28,8 +48,9 @@
           Buzzer Button
         </button>
       </li>
-    </ul>
+    </ul> -->
   </div>
+
 	<div id="center">
 		<button class="btn btn-ghost text-slate-50 font-bold" onclick={() => navigate('/')}
 			>Break Room Party</button
