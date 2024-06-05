@@ -1,27 +1,35 @@
 <script>
 	// import { goto } from '$app/navigation';
-import { navigate, goToGitHub } from '$lib/helper/global'
-
-	
+	import { navigate, goToGitHub } from '$lib/helper/global';
 </script>
 
 <div class="navbar flex justify-between rounded-b-lg bg-slate-700">
-	<div id="left" class="dropdown dropdown-start">
-		<div
-			tabindex="0"
-			role="button"
-			class="btn btn-ghost rounded-btn text-slate-50 jello-horizontal"
-		>
-			Games
-		</div>
-		<div class="menu dropdown-content z-[10] p-2 shadow bg-slate-700 rounded-box w-52 mt-4 gap-2">
-			<!-- <a href="/shuffle" class="btn btn-accent btn-sm" >Shuffle Game</a>
-			<a href="/buzzer" class="btn btn-accent btn-sm" >Buzzer Button</a> -->
-
-			<button class="btn btn-accent btn-sm" onclick={() => navigate('/shuffle')}>Shuffle Game</button>
-			<button class="btn btn-accent btn-sm" onclick={() => navigate('/buzzer')}>Buzzer Button </button>
-		</div>
-	</div>
+  <div id="left" class="dropdown dropdown-start z-[1]">
+    <button
+      class="btn btn-ghost rounded-btn text-slate-50 jello-horizontal"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="games-menu"
+    >
+      Games
+    </button>
+    <ul
+      id="games-menu"
+      class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+      aria-labelledby="games-menu-button"
+    >
+      <li>
+        <button class="btn btn-accent btn-sm mt-2" onclick={() => navigate('/shuffle')}>
+          Shuffle Game
+        </button>
+      </li>
+      <li>
+        <button class="btn btn-accent btn-sm mt-2" onclick={() => navigate('/buzzer')}>
+          Buzzer Button
+        </button>
+      </li>
+    </ul>
+  </div>
 	<div id="center">
 		<button class="btn btn-ghost text-slate-50 font-bold" onclick={() => navigate('/')}
 			>Break Room Party</button
@@ -38,4 +46,3 @@ import { navigate, goToGitHub } from '$lib/helper/global'
 		</div>
 	</div>
 </div>
-
