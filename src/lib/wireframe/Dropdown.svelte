@@ -14,7 +14,6 @@
 
 
   function handleClickOutside(event) {
-    console.log("click")
     if (dropdownRef && !dropdownRef.contains(event.target)) {
       isDropdownOpen = false;
     }
@@ -33,7 +32,7 @@
 </script>
 
 {#snippet dropdownItem(item)}
-	<button class="btn btn-accent btn-sm w-full text-left mt-1" onclick={item.func}>{item.name}</button>
+	<button class="btn btn-accent btn-sm w-full text-left mt-1" onclick={()=> {item.func(); toggleDropdown();}}>{item.name}</button>
 {/snippet}
 
 <div class="relative inline-block " bind:this={dropdownRef}>

@@ -1,8 +1,8 @@
 <script>
-	let { handleBtnClick, isBuzzBtnLock } = $props();
+	let { handleBtnClick, isBuzzBtnLock, isDemo = false } = $props();
 </script>
 
-<div class=" flex flex-col justify-center items-center gap-2 ">
+<div class="flex flex-col justify-center items-center gap-2 min-h-44	 ">
 	<div class="button-frame plastic">
 		<button
 			class="the-button plastic z-10 {isBuzzBtnLock ? 'disabled' : ''}"
@@ -10,13 +10,12 @@
 			disabled={isBuzzBtnLock}
 		></button>
 	</div>
-  <div
-    class=" z-0  font-bold text-5xl  {isBuzzBtnLock
-      ? 'text-red-500'
-      : 'text-blue-500'}"
-  >
-    {isBuzzBtnLock ? 'BUZZED' : 'READY'}
-  </div>
+</div>
+
+<div class="z-0 font-bold text-5xl {isBuzzBtnLock ? 'text-red-500' : 'text-blue-500'}">
+	{#if !isDemo}
+		{isBuzzBtnLock ? 'BUZZED' : 'READY'}
+	{/if}
 </div>
 
 <style>
@@ -83,10 +82,9 @@
 		border-radius: 50%;
 		display: block;
 		height: 7em;
-		margin: -3.4em auto 0;
+		margin: auto;
 		padding: 0.55em;
 		position: relative;
-		top: 50%;
 		width: 7em;
 		z-index: 20;
 	}
