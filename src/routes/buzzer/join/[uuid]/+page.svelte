@@ -136,17 +136,6 @@
 		}
 	}
 
-	// async function handleDeleteUser() {
-	// 	try {
-	// 		if (userID && hostDataMgr.hostData.uuid) {
-	// 			const response = await deleteBuzzUser(userID, hostDataMgr.hostData.uuid);
-	// 		} else {
-	// 			console.error('UserID or UUID is missing');
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error deleting user:', error.message);
-	// 	}
-	// }
 	function triggerConfetti() {
 		jsConfetti.addConfetti({
 			emojiSize: 100,
@@ -192,7 +181,7 @@
 		</div>
 		<div id="BOT"></div>
 	{:else if userID}
-		<div id="TOP" class="flex flex-col">
+		<div id="TOP" class="flex justify-center pt-2">
 			<HostNameDisplay />
 
 		</div>

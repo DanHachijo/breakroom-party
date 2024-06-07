@@ -102,7 +102,7 @@
 </script>
 
 <div class="flex flex-col justify-between h-full-content">
-	<div id="host-name-section" class=" flex justify-center">
+	<div id="host-name-section" class=" flex justify-center pt-2">
 		<HostNameDisplay isShowHostDelete={true} />
 	</div>
 

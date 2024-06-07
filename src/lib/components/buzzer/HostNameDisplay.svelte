@@ -18,7 +18,7 @@
 	});
 </script>
 
-<div class="flex flex-col p-2 rounded-md bg-slate-200 gap-3 ">
+<div class="flex flex-col p-2 rounded-md bg-slate-200 gap-3">
 	<div class="flex flex-wrap justify-center items-end p-2 gap-1">
 		<span class=" text-xl font-bold">
 			{name}
@@ -27,20 +27,20 @@
 
 	{#if isShowHostDelete}
 		<div>
-			<div class="flex justify-center font-bold text-sm">JOIN PASS</div>
-			<div class="flex flex-wrap justify-center">
-				{#each pass.toString() as item, index}
-					<span class="bg-slate-100 p-2 m-1 rounded-md w-8 h-10 flex items-center justify-center">
-						{#if isShowPass}
-							{item}
-						{/if}
-					</span>
-				{/each}
-			</div>
-			<div class="flex justify-end">
-				<button class="btn btn-xs btn-info m-1" onclick={toggleIsShowPass}
-					>{isShowPass ? 'HIDE' : 'SHOW'}</button
-				>
+			<div class="flex flex-col flex-wrap justify-center ">
+				<div class="flex justify-center font-bold text-sm ">JOIN PASS</div>
+				<div class="flex  flex-wrap justify-center ">
+					{#each pass.toString() as item, index}
+						<span class="bg-slate-100 p-2 m-1 rounded-md w-9 h-10 flex items-center justify-center">
+							{#if isShowPass}
+								{item}
+							{/if}
+						</span>
+					{/each}
+					<button class="btn btn-xs w-9 h-10 btn-info m-1 {isShowPass ? 'opacity-50' : ''}" onclick={toggleIsShowPass}
+						>👀</button
+					>
+				</div>
 			</div>
 		</div>
 

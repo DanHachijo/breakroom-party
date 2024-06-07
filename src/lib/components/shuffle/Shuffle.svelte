@@ -153,8 +153,8 @@
 			clearInterval(intervalId);
 			selectedItem = highlightedItem;
 			isShuffling = false;
-			addConfetti();
 			if (!isDemo) {
+				addConfetti();
 				setSelectedTrue(selectedItem.id);
 				setItemListToLocalStorage();
 				modalSelectedItem.showModal();
@@ -169,8 +169,8 @@
 	});
 </script>
 
-<div class="{badgeColor}  rounded-md">
-	<div class="flex justify-center md:justify-between flex-wrap items-center">
+<div class="{badgeColor}  rounded-md flex flex-col {isDemo? '' : 'min-h-[80vh]'} ">
+	<div class="flex justify-center md:justify-between flex-wrap items-center  ">
 		<div class="p-2">
 			<div class="flex gap-2 flex-wrap pt-4 pl-2 md:p-2">
 				{#if !isDemo}
@@ -237,7 +237,7 @@
 				{/if}
 
 				<button
-					class="btn btn-sm btn-accent jello-horizontal"
+					class="btn btn-sm {isDemo ? 'btn-info' : 'btn-accent'} jello-horizontal"
 					onclick={pickRandomItem}
 					disabled={isShuffling ||
 						(countSelectedFalse <= 1 && isSelectOnlyOnce) ||
@@ -246,12 +246,14 @@
 				{isDemo ? 'START DEMO' : 'START'}
 					
 				</button>
+				
 			</div>
 		</div>
 		{#if !isDemo}
-			<div>
-				<div class="flex justify-start items-center w-full gap-2 flex-wrap p-2">
-					<div class="form-control sm:w-64">
+			<div class="flex items-center">
+				<div class="flex justify-start items-center w-full gap-2 flex-wrap p-2 ">
+
+					<div class="form-control sm:w-64 ">
 						<label class="label cursor-pointer flex justify-end">
 							<span class="label-text p-1 mr-2 text-slate-100 {isShuffling ? 'opacity-50' : ''}">
 								{isSelectOnlyOnce ? 'Disable "Select Only Once"' : 'Enable "Select Only Once"'}
@@ -270,6 +272,8 @@
 						class="btn btn-sm mr-2"
 						onclick={setAllItemsUnselected}>RESET ALL ✅</button
 					>
+
+
 				</div>
 			</div>
 		{/if}
@@ -282,7 +286,7 @@
 		{#if itemList.length > 1}
 			{#each itemList as item, index}
 				<div
-					class="col-span-12 {isDemo ? 'sm:col-span-4' : 'md:col-span-6'} flex justify-center {item.isSelected &&
+					class="col-span-12 lg:col-span-6 flex justify-center {item.isSelected &&
 					isSelectOnlyOnce &&
 					highlightedItem.id !== item.id
 						? 'opacity-50'

@@ -57,13 +57,13 @@
 	});
 </script>
 
-<div class="flex items-center justify-center mt-4">
-	<div class="grid grid-cols-2 gap-4 p-2">
+
+	<div class="grid grid-cols-2 gap-4 p-2 ">
 		<div
-			class=" col-span-2 md:col-span-1 flex flex-col justify-between border-4 border-primary bg-slate-100 rounded-md p-2 hover-scale"
+			class=" col-span-2 lg:col-span-1 flex flex-col justify-between bg-slate-700 rounded-md p-2 hover-scale"
 		>
-			<div class="font-semibold p-3 text-xl md:text-2xl">Host the game?</div>
-			<div class="p-3">
+			<div class="font-semibold p-3 text-4xl text-accent">HOST GMAE</div>
+			<div class="p-3 text-slate-50">
 				<p>Hosts can:</p>
 				<ul>
 					<li class="text-sm">- See who pressed the buzzer button.</li>
@@ -94,17 +94,17 @@
 					<HostNameDisplay isShowHostDelete={true} isShowJoinPass={true} />
 				{/if}
 				<button
-					class="btn btn-primary mt-2"
-					onclick={() => goto(`buzzer/host/${hostDataMgr.hostData.host_uuid}`)}>Buzz room</button
+					class="btn btn-accent mt-2 font-bold"
+					onclick={() => goto(`buzzer/host/${hostDataMgr.hostData.host_uuid}`)}>HOST PAGE</button
 				>
 			{/if}
 		</div>
 
 		<div
-			class="col-span-2 md:col-span-1 flex flex-col justify-between bg-primary rounded-md p-2 hover-scale"
+			class="col-span-2 lg:col-span-1 flex flex-col justify-between bg-slate-700 rounded-md p-2 hover-scale"
 		>
-			<div class="font-semibold p-3 text-xl md:text-2xl text-slate-50">Join the game?</div>
-			<div>
+			<div class="font-semibold p-3 text-4xl text-accent">JOIN GAME</div>
+			<div class="text-slate-50">
 				<p>Participants can:</p>
 				<ul>
 					<li class="text-sm">- Press the button when you know the answer.</li>
@@ -116,12 +116,12 @@
 			<div>
 
 				<div class="  bg-slate-200 p-2 rounded-md flex flex-col">
-					<div class="font-bold text-sm justify-center flex">Enter JOIN PASS</div>
+					<div class="font-bold text-sm justify-center flex">JOIN PASS</div>
 					<div class="flex flex-wrap justify-center text-slate-950">
 						{#each digits as digit, index}
 						<input
 						type="text"
-						class="input w-8 h-10 m-1 text-sm input-sm text-cente"
+						class="input w-9 h-10 m-1 text-sm input-sm text-center"
 						bind:value={digits[index]}
 						onfocus={highlightInput}
 						oninput={(event) => {
@@ -135,22 +135,23 @@
 					</div>
 					<div class="flex flex-col">
 
-						<button class="btn btn-md btn-success mt-2" onclick={jumpToGuestPage}>JOIN</button>
+						<button class="btn btn-md btn-outline btn-accent font-bold mt-2" onclick={jumpToGuestPage}>JOIN</button>
 					</div>
 				</div>
 		</div>
-		<div class="col-span-2">
-			<ul class="text-gray-400">
-				<li>
-					- All host data, user data, and game scores are automatically deleted from the database
-					approximately 3 hours after creation.
-				</li>
-				<li>- Please refrain from entering any sensitive information.</li>
-				<li>
-					- The site owner disclaims responsibility for any consequences arising from the use of
-					this site.
-				</li>
-			</ul>
-		</div>
 	</div>
-</div>
+
+	<div class="col-span-2  ">
+		<ul class="text-gray-700">
+			<li>
+				- All host data, user data, and game scores are automatically deleted from the database
+				approximately 3 hours after creation.
+			</li>
+			<li>- Please refrain from entering any sensitive information.</li>
+			<li>
+				- The site owner disclaims responsibility for any consequences arising from the use of
+				this site.
+			</li>
+		</ul>
+	</div>
+
