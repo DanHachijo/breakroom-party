@@ -12,7 +12,7 @@
 	import {
 		getBuzzUserIDFromLocal,
 		setBuzzUserIDToLocal,
-		deleteBuzzUserIDFromLocal,
+		deleteBuzzUserIDFromLocal
 	} from '$lib/helper/buzzer';
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import { onMount } from 'svelte';
@@ -26,8 +26,8 @@
 
 	let { data } = $props();
 
-	hostDataMgr.updateData(data.props.buzzHost)
-	
+	hostDataMgr.updateData(data.props.buzzHost);
+
 	let defaultBuzzUser = {
 		id: '',
 		name: '',
@@ -79,7 +79,7 @@
 			updateUserID();
 			listenUserDeletion();
 			userNameInput = null;
-			subscribeToUserWinNum(userID, updateAfterWin)
+			subscribeToUserWinNum(userID, updateAfterWin);
 			toastMgr.addToastMsgQue('User is created', 'alert-info');
 		} catch (error) {
 			showAlert('Error creating user');
@@ -110,8 +110,8 @@
 
 	// UserDelete
 	function updateAfterWin(data) {
-		buzzUserData = data
-		triggerConfetti()
+		buzzUserData = data;
+		triggerConfetti();
 	}
 
 	function resetUserInfoAfterDelete() {
@@ -121,13 +121,12 @@
 		isBuzzBtnLock = false;
 		deleteBuzzUserIDFromLocal();
 		toastMgr.addToastMsgQue('User is deleted', 'alert-warning');
-		console.log("deleted")
-
+		console.log('deleted');
 	}
 
 	async function listenUserDeletion() {
-		console.log("Listening delete")
-		console.log(userID)
+		console.log('Listening delete');
+		console.log(userID);
 
 		try {
 			await subscribeToUserDelete(userID, resetUserInfoAfterDelete);
@@ -144,7 +143,6 @@
 		});
 	}
 
-
 	onMount(async () => {
 		userID = getBuzzUserIDFromLocal();
 		if (userID) {
@@ -152,47 +150,53 @@
 			buzz_game_id = await checkBuzzBtnExistence(userID);
 			subscribeToBuzzBtnUnlock(userID, buzz_game_id, toggleBuzzBtn);
 			await listenUserDeletion();
-			await subscribeToUserWinNum(userID, updateAfterWin)
+			await subscribeToUserWinNum(userID, updateAfterWin);
 		}
 		jsConfetti = new JSConfetti();
 	});
 </script>
 
-<div class="flex flex-col justify-between items-center h-full-content">
+<div class="flex flex-col justify-between items-center min-h-full">
 	{#if userID == null}
-		<div id="TOP"></div>
-		<div id="MID" class="flex-col gap-2">
-			<div class="bg-info py-4 px-6 rounded-md">
-				<div class="text-base m-2">Let's create your buzz button</div>
-				<input
-					type="text"
-					placeholder="Your display name"
-					class="input input-bordered w-full max-w-xs"
-					bind:value={userNameInput}
-				/>
-				<div class="flex justify-end">
-					<button
-						class="btn btn-sm btn-secondary my-2"
-						onclick={createNewUser}
-						disabled={!userNameInput}>Create</button
-					>
-				</div>
+		<div></div>
+		<div class="bg-slate-700 py-4 px-6 rounded-md">
+			<div class=" m-2 text-2xl text-slate-50 mb-4">Let's create your buzz button!</div>
+			<input
+				type="text"
+				placeholder="Display name"
+				class="input input-bordered w-full max-w-xs"
+				bind:value={userNameInput}
+			/>
+			<div class="flex justify-end">
+				<button
+					class="btn btn-md btn-accent m-2 mt-4"
+					onclick={createNewUser}
+					disabled={!userNameInput}>Create</button
+				>
 			</div>
 		</div>
-		<div id="BOT"></div>
+		<div></div>
 	{:else if userID}
 		<div id="TOP" class="flex justify-center pt-2">
 			<HostNameDisplay />
-
 		</div>
 
 		<div id="MID" class="text-2xl flex items-center gap-2">
-			<div class=" md:scale-125 ">
+			<div class=" md:scale-125">
 				<BuzzBtn {handleBtnClick} {isBuzzBtnLock} />
 			</div>
 		</div>
 		<div id="BOT" class="flex flex-col justify-center items-center">
-			<UserInfoDisplay  userId={userID} userName={buzzUserData.name} winNum={buzzUserData.win_num} uuid={hostDataMgr.hostData.uuid}/>
+			<UserInfoDisplay
+				userId={userID}
+				userName={buzzUserData.name}
+				winNum={buzzUserData.win_num}
+				uuid={hostDataMgr.hostData.uuid}
+			/>
 		</div>
 	{/if}
+</div>
+
+<div class="grid grid-cols-12">
+	<div></div>
 </div>

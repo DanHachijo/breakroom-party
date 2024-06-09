@@ -57,8 +57,8 @@
 	});
 </script>
 
-
-	<div class="grid grid-cols-2 gap-4 p-2 ">
+<div class="min-h-[92vh] flex flex-col justify-center">
+	<div class="grid grid-cols-2 gap-4 p-2">
 		<div
 			class=" col-span-2 lg:col-span-1 flex flex-col justify-between bg-slate-700 rounded-md p-2 hover-scale"
 		>
@@ -72,7 +72,11 @@
 					<li class="text-sm">- Clear the game and move to the next one.</li>
 				</ul>
 			</div>
-			{#if !isHostUUID || isLoading}
+			{#if isLoading}
+			<div class="flex justify-center min-h-56">
+				<span class="loading loading-dots loading-md text-slate-50"></span>
+			</div>
+			{:else if !isHostUUID}
 				<div class="flex justify-center">
 					<input
 						type="text"
@@ -114,44 +118,44 @@
 				</ul>
 			</div>
 			<div>
-
 				<div class="  bg-slate-200 p-2 rounded-md flex flex-col">
 					<div class="font-bold text-sm justify-center flex">JOIN PASS</div>
 					<div class="flex flex-wrap justify-center text-slate-950">
 						{#each digits as digit, index}
-						<input
-						type="text"
-						class="input w-9 h-10 m-1 text-sm input-sm text-center"
-						bind:value={digits[index]}
-						onfocus={highlightInput}
-						oninput={(event) => {
-							digits[index] = event.target.value.slice(0, 1);
-							focusNextInput(index);
-						}}
-							id={`input-${index}`}
+							<input
+								type="text"
+								class="input w-9 h-10 m-1 text-sm input-sm text-center"
+								bind:value={digits[index]}
+								onfocus={highlightInput}
+								oninput={(event) => {
+									digits[index] = event.target.value.slice(0, 1);
+									focusNextInput(index);
+								}}
+								id={`input-${index}`}
 							/>
-							{/each}
-						</div>
-					</div>
-					<div class="flex flex-col">
-
-						<button class="btn btn-md btn-outline btn-accent font-bold mt-2" onclick={jumpToGuestPage}>JOIN</button>
+						{/each}
 					</div>
 				</div>
+				<div class="flex flex-col">
+					<button class="btn btn-md btn-outline btn-accent font-bold mt-2" onclick={jumpToGuestPage}
+						>JOIN</button
+					>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="col-span-2  ">
-		<ul class="text-gray-700">
+	<div class="col-span-2">
+		<ul class="text-gray-700 p-2">
 			<li>
 				- All host data, user data, and game scores are automatically deleted from the database
 				approximately 3 hours after creation.
 			</li>
 			<li>- Please refrain from entering any sensitive information.</li>
 			<li>
-				- The site owner disclaims responsibility for any consequences arising from the use of
-				this site.
+				- The site owner disclaims responsibility for any consequences arising from the use of this
+				site.
 			</li>
 		</ul>
 	</div>
-
+</div>
