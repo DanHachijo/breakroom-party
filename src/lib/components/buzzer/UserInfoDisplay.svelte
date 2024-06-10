@@ -1,6 +1,7 @@
 <script>
 	import { deleteBuzzUser } from '$lib/supabase/buzzerClient.js';
   import { toastMgr } from '$lib/helper/toastStore.svelte';
+  import { Trash2 } from 'lucide-svelte';
 
 	let { winUserId = 0, userId = 0, userName = 'Guest', winNum = 0, uuid = '' } = $props();
 
@@ -44,11 +45,11 @@
 			</div>
 
 			<div class="flex items-end">
-        <button class="btn btn-xs" onclick={toggleDeleteBtn}>🗑️</button>
+        <button class="btn btn-xs" onclick={toggleDeleteBtn}><Trash2 size={16}/></button>
 
 				{#if isShowDeleteBtn}
-        <div class="absolute inset-0 flex items-center justify-around bg-slate-200 rounded-md ">
-
+        <div class="absolute inset-0 flex items-center gap-6 pr-6 justify-end bg-slate-200 rounded-md ">
+					<p>DELETE USER: {userName} ?</p>
 					<button
 						class="btn btn-sm btn-warning "
 						onclick={() => {

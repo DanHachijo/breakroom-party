@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import JSConfetti from 'js-confetti';
 	import { templateList } from '$lib/helper/shuffleTemplateList';
+  import { SquareCheckBig, Square } from 'lucide-svelte';
+
 
 	let { tabNum = 0, badgeColor = '', toggleShuffleParent, isDemo = false } = $props();
 
@@ -204,8 +206,8 @@
 						<div class="modal-box">
 							<h3 class="font-bold text-lg">Shuffle list</h3>
 
-							<span class="text-xs"
-								>Once you make changes in the list, all the selected items✅ will be reset to 🟩.</span
+							<span class="text-xs flex flex-wrap gap-1 mb-1 items-center"
+								>Once you make changes in the list, all the selected items<SquareCheckBig size={12}/> will be reset to <Square size={12}/>.</span
 							>
 							{#if itemList?.length <= 1}
 								<div class="alert alert-warning my-2">
@@ -270,7 +272,7 @@
 					<button
 						disabled={isShuffling || !isSelectOnlyOnce}
 						class="btn btn-sm mr-2"
-						onclick={setAllItemsUnselected}>RESET ALL ✅</button
+						onclick={setAllItemsUnselected}>RESET ALL <SquareCheckBig size={18}/></button
 					>
 
 
@@ -310,10 +312,17 @@
 								</span>
 								{#if isSelectOnlyOnce}
 									<button
-										class="mr-3"
+										class="mr-3 btn-ghost"
 										disabled={isShuffling}
 										onclick={() => (item.isSelected = !item.isSelected)}
-										>{item.isSelected ? '✅' : '🟩'}</button
+										>
+										{#if item?.isSelected}
+										<SquareCheckBig size={18}/>
+										{:else}
+										<Square size={18}/>
+										{/if}
+										
+										</button
 									>
 								{/if}
 							</div>
@@ -331,10 +340,12 @@
 		<form method="dialog">
 			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
-		<h3 class=" font-bold text-lg flex justify-center">
+		<h3 class=" font-bold text-lg flex justify-center items-center">
 			{selectedItem.name}
 			{#if isSelectOnlyOnce}
-				✅
+			<span class="mx-2">
+				<SquareCheckBig size={18} />
+			</span>
 			{/if}
 		</h3>
 	</div>

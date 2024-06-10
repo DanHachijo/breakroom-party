@@ -6,6 +6,7 @@
 	// import JoinUrlDisplay from '$lib/components/buzzer/JoinURLDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import { getUUIDByPass } from '$lib/supabase/buzzerClient.js';
+  import { toastMgr } from '$lib/helper/toastStore.svelte';
 
 	let isHostUUID = $derived(Boolean(hostDataMgr?.hostData?.host_uuid));
 	let isLoading = $state(true);
@@ -13,6 +14,9 @@
 	let hostNameInput = $state(null);
 
 	let digits = $state(['', '', '', '', '', '', '', '']);
+	let isJoinBtnEnabled = $derived(digits.every(digit => digit !== ''))
+
+
 
 	function createPassObject() {
 		const pass = digits.join('');
@@ -24,13 +28,14 @@
 
 	async function jumpToGuestPage() {
 		let pass = createPassObject();
-		console.log(pass);
 		try {
 			const response = await getUUIDByPass(pass);
 			let uuid = response.uuid;
 			goto(`buzzer/join/${uuid}`);
 		} catch (error) {
 			console.error(error.message);
+			toastMgr.addToastMsgQue("Invalid JOIN PASS", 'alert-warning');
+
 		}
 		getUUIDByPass();
 	}
@@ -73,9 +78,9 @@
 				</ul>
 			</div>
 			{#if isLoading}
-			<div class="flex justify-center min-h-56">
-				<span class="loading loading-dots loading-md text-slate-50"></span>
-			</div>
+				<div class="flex justify-center min-h-56">
+					<span class="loading loading-dots loading-md text-slate-50"></span>
+				</div>
 			{:else if !isHostUUID}
 				<div class="flex justify-center">
 					<input
@@ -83,23 +88,24 @@
 						placeholder="Type host name to dispay"
 						class="input input-bordered w-full m-4"
 						bind:value={hostNameInput}
+						maxlength="36"
 					/>
 				</div>
-				<div class="flex justify-end">
+				
 					<button
 						disabled={!hostNameInput}
-						class="btn btn-md btn-accent mt-4"
+						class="btn btn-md btn-accent mt-4 btn-outline"
 						onclick={() => hostDataMgr.createBuzzHostDB(hostNameInput) && (hostNameInput = '')}
 						>Create a game</button
 					>
-				</div>
+				
 			{:else}
 				{#if hostDataMgr.hostData}
 					<HostNameDisplay isShowHostDelete={true} isShowJoinPass={true} />
 				{/if}
 				<button
 					class="btn btn-accent mt-2 font-bold"
-					onclick={() => goto(`buzzer/host/${hostDataMgr.hostData.host_uuid}`)}>HOST PAGE</button
+					onclick={() => goto(`buzzer/host/${hostDataMgr.hostData.host_uuid}`)}>HOST</button
 				>
 			{/if}
 		</div>
@@ -118,26 +124,28 @@
 				</ul>
 			</div>
 			<div>
-				<div class="  bg-slate-200 p-2 rounded-md flex flex-col">
-					<div class="font-bold text-sm justify-center flex">JOIN PASS</div>
-					<div class="flex flex-wrap justify-center text-slate-950">
-						{#each digits as digit, index}
-							<input
-								type="text"
-								class="input w-9 h-10 m-1 text-sm input-sm text-center"
-								bind:value={digits[index]}
-								onfocus={highlightInput}
-								oninput={(event) => {
-									digits[index] = event.target.value.slice(0, 1);
-									focusNextInput(index);
-								}}
-								id={`input-${index}`}
-							/>
-						{/each}
+				<div class="  bg-slate-200 p-2 py-6 rounded-md flex flex-col items-center">
+					<div class="">
+						<div class="font-bold text-sm ml-1">JOIN PASS</div>
+						<div class="flex flex-wrap justify-center text-slate-950">
+							{#each digits as digit, index}
+								<input
+									type="text"
+									class="input w-9 h-10 m-1 text-sm input-sm text-center"
+									bind:value={digits[index]}
+									onfocus={highlightInput}
+									oninput={(event) => {
+										digits[index] = event.target.value.slice(0, 1);
+										focusNextInput(index);
+									}}
+									id={`input-${index}`}
+								/>
+							{/each}
+						</div>
 					</div>
 				</div>
 				<div class="flex flex-col">
-					<button class="btn btn-md btn-outline btn-accent font-bold mt-2" onclick={jumpToGuestPage}
+					<button class="btn btn-md {isHostUUID ? 'btn-outline' : '' }  btn-accent font-bold mt-2" onclick={jumpToGuestPage} disabled={!isJoinBtnEnabled}
 						>JOIN</button
 					>
 				</div>

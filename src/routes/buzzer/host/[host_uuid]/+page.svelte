@@ -18,6 +18,7 @@
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
 	import { fly } from 'svelte/transition';
+	import { Eye, EyeOff } from 'lucide-svelte';
 
 	let jsConfetti;
 	let { data } = $props();
@@ -113,13 +114,18 @@
 			<HostNameDisplay isShowHostDelete={true} />
 		</div>
 
-		<div class="flex justify-center mt-4 lg:mt-6">
+		<div class="flex justify-center items-center gap-4 mt-4 lg:mt-6">
 			{#if sortedUsersByWinNum.length == 0}
 				<div class="flex justify-center mt-8 mb-4 font-bold">Waiting Users to join...</div>
 			{:else}
-				<button class="btn btn-md btn-info" onclick={toggleScoreSheet}
-					>{isHideScoreSheet ? 'HIDE' : 'SHOW'} SCORE SHEET</button
-				>
+				<h5>SCORE SHEET</h5>
+				<button class="btn btn-xs" onclick={toggleScoreSheet}>
+					{#if isHideScoreSheet}
+						<EyeOff size={18} />
+					{:else}
+						<Eye size={18} />
+					{/if}
+				</button>
 			{/if}
 		</div>
 
@@ -154,17 +160,17 @@
 				{/if}
 
 				{#each gameUsers as gameUser, index (gameUser.id)}
-					<div class="relative">
+					<div class="relative mx-4 lg:mx-8">
 						<button
 							class=" flex gap-2 p-2 justify-between items-center w-full cursor-pointer rounded-lg {isBtnDisabled
 								? 'opacity-60'
 								: ''} {activeUserIndex == index
-								? 'border-2 border-indigo-500/50  bg-indigo-200 shadow-md opacity-100'
-								: ''}
-          {activeUserIndex > index ? 'bg-slate-600' : ''}
+								? 'border-4 border-indigo-500/50  bg-indigo-200 shadow-md opacity-100'
+								: 'scale-95'}
+							{activeUserIndex > index ? 'bg-slate-600' : ''}
           
-          {activeUserIndex < index ? 'bg-pink-200' : ''}
-          "
+							{activeUserIndex < index ? 'bg-pink-200' : ''}
+							"
 							onclick={() => (activeUserIndex = index)}
 						>
 							<div
@@ -226,16 +232,16 @@
 														disabled={isBtnDisabled}
 														onclick={() =>
 															answerCorrect(gameUser.fk_buzzed_user, user.win_num + scoreNum)}
-														>ADD+{scoreNum}🎉</button
+														>ADD+{scoreNum}</button
 													>
-													<div class="flex min-w-6">
+													<div class="flex ">
 														<button
 															disabled={isBtnDisabled}
-															class="btn btn-lg rounded-none border-2 border-black hover:border-2 hover:border-black btn-accent font-bold text-2xl"
+															class="btn  rounded-none border-2 w-4 h-16 lg:w-12  border-black hover:border-2 hover:border-black btn-accent font-bold text-2xl"
 															onclick={() => scoreNum++}>+</button
 														>
 														<button
-															class="btn btn-lg rounded-none border-2 border-black hover:border-2 hover:border-black rounded-r-lg btn-accent font-bold text-2xl"
+															class="btn  rounded-none border-2 w-4 h-16 lg:w-12  border-black hover:border-2 hover:border-black rounded-r-lg btn-accent font-bold text-2xl"
 															onclick={() => (scoreNum >= 2 ? scoreNum-- : '')}
 															disabled={scoreNum == 1 || isBtnDisabled}>-</button
 														>

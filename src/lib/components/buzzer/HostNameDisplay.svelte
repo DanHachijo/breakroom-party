@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { getDeletionTime } from '$lib/helper/buzzer';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
-
+	import { Eye, EyeOff, Trash2, ClipboardCopy } from 'lucide-svelte';
+	import { copyToClipboard } from '$lib/helper/global'
 	let { name, created_at, host_uuid, id, uuid, pass } = hostDataMgr.hostData || {};
 
 	let { isShowHostDelete = false, isShowJoinPass } = $props();
@@ -26,10 +27,25 @@
 	</div>
 
 	{#if isShowHostDelete}
-		<div>
-			<div class="flex flex-col flex-wrap justify-center ">
-				<div class="flex justify-center font-bold text-sm ">JOIN PASS</div>
-				<div class="flex  flex-wrap justify-center ">
+		<div class="flex flex-col flex-wrap justify-center items-center">
+			<div class="">
+				<hr class=" border-2 border-slate-700 " />
+				<div class="flex justify-between">
+
+					<div class=" font-bold text-sm pt-2 ml-1">JOIN PASS</div>
+					<div>
+
+						<button class="btn btn-xs btn-info m-1" onclick={toggleIsShowPass}>
+							{#if isShowPass}
+							<EyeOff size={18}/>
+							{:else}
+							<Eye size={18}/>
+							{/if}
+						</button>
+						<button onclick={()=>copyToClipboard(pass)} class="btn btn-xs btn-info btn-outline "><ClipboardCopy size={18}/></button>
+					</div>
+				</div>
+				<div class="flex flex-wrap justify-center">
 					{#each pass.toString() as item, index}
 						<span class="bg-slate-100 p-2 m-1 rounded-md w-9 h-10 flex items-center justify-center">
 							{#if isShowPass}
@@ -37,9 +53,7 @@
 							{/if}
 						</span>
 					{/each}
-					<button class="btn btn-xs w-9 h-10 btn-info m-1 {isShowPass ? 'opacity-50' : ''}" onclick={toggleIsShowPass}
-						>👀</button
-					>
+
 				</div>
 			</div>
 		</div>
@@ -51,7 +65,7 @@
 				aria-label="Delete hosted game"
 				onclick={() => {
 					deleteBuzzHostModal.showModal();
-				}}>🗑️</button
+				}}><Trash2 size={14} /></button
 			>
 		</div>
 	{/if}

@@ -13,9 +13,9 @@
 	});
 </script>
 
-<div class="alert relative p-4 {style} ">
+<div class="alert relative p-4 {style} min-w-60 flex justify-center">
 	<button class="btn btn-ghost btn-circle btn-xs absolute right-1 top-1" onclick={closeToast}
 		>✕</button
 	>
-	<span>{msg} </span>
+	<span class="font-bold">{msg} </span>
 </div>
