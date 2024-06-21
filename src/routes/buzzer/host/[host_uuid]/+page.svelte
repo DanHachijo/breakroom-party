@@ -14,10 +14,11 @@
 	import { toastMgr } from '$lib/helper/toastStore.svelte';
 	import JSConfetti from 'js-confetti';
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
-	// import JoinUrlDisplay from '$lib/components/buzzer/JoinURLDisplay.svelte';
+	import ScoreSheet from '$lib/components/buzzer/ScoreSheet.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
-	import { fly } from 'svelte/transition';
+	import { fly, scale  } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 	import { Eye, EyeOff } from 'lucide-svelte';
 
 	let jsConfetti;
@@ -25,7 +26,7 @@
 	hostDataMgr.updateData(data.props.buzzHost);
 
 	let buzzHost = $state(data.props.buzzHost);
-	let Users = $state(data.props.buzzUsers);
+	let users = $state(data.props.buzzUsers);
 	let buzzGame = $state(data.props.buzzGame);
 	let gameUsers = $state([]);
 	const uuid = data.props.buzzHost.uuid;
@@ -43,7 +44,7 @@
 	}
 
 	$effect(() => {
-		sortedUsersByWinNum = [...Users].sort((a, b) => b.win_num - a.win_num);
+		sortedUsersByWinNum = [...users].sort((a, b) => b.win_num - a.win_num);
 	});
 
 	$effect(() => {
@@ -75,7 +76,7 @@
 
 	async function updateUsers() {
 		try {
-			Users = await fetchBuzzUsers(uuid);
+			users = await fetchBuzzUsers(uuid);
 		} catch (error) {
 			console.error('Error fetching users:', error.message);
 		}
@@ -114,7 +115,7 @@
 			<HostNameDisplay isShowHostDelete={true} />
 		</div>
 
-		<div class="flex justify-center items-center gap-4 mt-4 lg:mt-6">
+		<!-- <div class="flex justify-center items-center gap-4 mt-4 lg:mt-6">
 			{#if sortedUsersByWinNum.length == 0}
 				<div class="flex justify-center mt-8 mb-4 font-bold">Waiting Users to join...</div>
 			{:else}
@@ -141,7 +142,8 @@
 					/>
 				{/each}
 			</div>
-		{/if}
+		{/if} -->
+		<ScoreSheet usersData={users} isShowUserDelete={true} {winUserId}/>
 	</div>
 
 	<div class="col-span-12 lg:col-span-7 mt-4">
@@ -222,7 +224,7 @@
 						</button>
 						<div>
 							{#if activeUserIndex == index}
-								{#each Users as user (user.id)}
+								{#each users as user (user.id)}
 									{#if user.id === gameUser.fk_buzzed_user}
 										<div class=" absolute inset-0 flex items-center justify-end lg:justify-center">
 											{#if !isBtnDisabled}

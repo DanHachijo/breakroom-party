@@ -7,6 +7,9 @@
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import { getUUIDByPass } from '$lib/supabase/buzzerClient.js';
   import { toastMgr } from '$lib/helper/toastStore.svelte';
+  import { ClipboardPaste } from 'lucide-svelte';
+
+	 
 
 	let isHostUUID = $derived(Boolean(hostDataMgr?.hostData?.host_uuid));
 	let isLoading = $state(true);
@@ -54,6 +57,20 @@
 		}
 	}
 
+	async function pasteFromClipboard() {
+		try {
+			const text = await navigator.clipboard.readText();
+			if (text.length === 8 && /^[0-9]*$/.test(text)) {
+				digits = text.split('')
+			} else {
+				alert('Clipboard content is not a valid 8-digit number.');
+			}
+		} catch (err) {
+			console.error('Failed to read clipboard contents: ', err);
+		}
+	}
+
+
 	onMount(async () => {
 		if (hostDataMgr.getHostUUIDFromLocalStorage()) {
 			await hostDataMgr.fetchtBuzzHostFromDB();
@@ -94,7 +111,7 @@
 				
 					<button
 						disabled={!hostNameInput}
-						class="btn btn-md btn-accent mt-4 btn-outline"
+						class="btn btn-md btn-accent mt-4 "
 						onclick={() => hostDataMgr.createBuzzHostDB(hostNameInput) && (hostNameInput = '')}
 						>Create a game</button
 					>
@@ -126,7 +143,10 @@
 			<div>
 				<div class="  bg-slate-200 p-2 py-6 rounded-md flex flex-col items-center">
 					<div class="">
-						<div class="font-bold text-sm ml-1">JOIN PASS</div>
+						<div class="flex justify-between items-center my-1">
+							<div class="font-bold text-sm ml-1">JOIN PASS</div>
+							<button onclick={pasteFromClipboard} class="btn btn-xs btn-info btn-outline"><ClipboardPaste size={18}/></button>
+						</div>
 						<div class="flex flex-wrap justify-center text-slate-950">
 							{#each digits as digit, index}
 								<input

@@ -1,9 +1,16 @@
 <script>
 	import { deleteBuzzUser } from '$lib/supabase/buzzerClient.js';
-  import { toastMgr } from '$lib/helper/toastStore.svelte';
-  import { Trash2 } from 'lucide-svelte';
+	import { toastMgr } from '$lib/helper/toastStore.svelte';
+	import { Trash2 } from 'lucide-svelte';
 
-	let { winUserId = 0, userId = 0, userName = 'Guest', winNum = 0, uuid = '' } = $props();
+	let {
+		winUserId = 0,
+		userId = 0,
+		userName = 'Guest',
+		winNum = 0,
+		uuid = '',
+		isShowUserDelete = false
+	} = $props();
 
 	let isShowDeleteBtn = $state(false);
 	function toggleDeleteBtn() {
@@ -43,27 +50,26 @@
 					{winNum}
 				</span>
 			</div>
+			{#if isShowUserDelete}
+				<div class="flex items-end">
+					<button class="btn btn-xs" onclick={toggleDeleteBtn}><Trash2 size={16} /></button>
 
-			<div class="flex items-end">
-        <button class="btn btn-xs" onclick={toggleDeleteBtn}><Trash2 size={16}/></button>
-
-				{#if isShowDeleteBtn}
-        <div class="absolute inset-0 flex items-center gap-6 pr-6 justify-end bg-slate-200 rounded-md ">
-					<p>DELETE USER: {userName} ?</p>
-					<button
-						class="btn btn-sm btn-warning "
-						onclick={() => {
-							handleDeleteUser(userId);
-						}}>DELETE</button
-					>
-          <button
-          class="btn btn-sm btn-info x"
-          onclick={toggleDeleteBtn}>CANCEL</button
-        >
-        </div>
-				{/if}
-			</div>
+					{#if isShowDeleteBtn}
+						<div
+							class="absolute inset-0 flex items-center gap-6 pr-6 justify-end bg-slate-200 rounded-md"
+						>
+							<p>DELETE USER: {userName} ?</p>
+							<button
+								class="btn btn-sm btn-warning"
+								onclick={() => {
+									handleDeleteUser(userId);
+								}}>DELETE</button
+							>
+							<button class="btn btn-sm btn-info x" onclick={toggleDeleteBtn}>CANCEL</button>
+						</div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
-

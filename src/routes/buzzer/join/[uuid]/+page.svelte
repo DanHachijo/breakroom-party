@@ -7,7 +7,8 @@
 		subscribeToBuzzBtnUnlock,
 		checkBuzzBtnExistence,
 		subscribeToUserDelete,
-		subscribeToUserWinNum
+		subscribeToUserWinNum,
+		subscribeGameUsers
 	} from '$lib/supabase/buzzerClient.js';
 	import {
 		getBuzzUserIDFromLocal,
@@ -20,6 +21,8 @@
 	import HostNameDisplay from '$lib/components/buzzer/HostNameDisplay.svelte';
 	import { hostDataMgr } from '$lib/helper/buzzerStore.svelte';
 	import UserInfoDisplay from '$lib/components/buzzer/UserInfoDisplay.svelte';
+	import ScoreSheet from '$lib/components/buzzer/ScoreSheet.svelte';
+
 	import JSConfetti from 'js-confetti';
 
 	let jsConfetti;
@@ -27,6 +30,7 @@
 	let { data } = $props();
 
 	hostDataMgr.updateData(data.props.buzzHost);
+	let users = $state(data.props.buzzUsers);
 
 	let defaultBuzzUser = {
 		id: '',
@@ -156,6 +160,56 @@
 	});
 </script>
 
+<!-- <div class="grid grid-cols-12 h-full-content gap-6">
+	<div class="col-span-12 lg:col-span-5 mt-2 md:mt-4">
+		<ScoreSheet usersData={users} isShowUserDelete={true} winUserId={1} />
+	</div>
+
+	<div class="col-span-12 lg:col-span-7 mt-4 ">
+		<div class="flex flex-col justify-between items-center min-h-[90vh]">
+			{#if userID == null}
+				<div></div>
+				<div class="bg-slate-700 py-4 px-6 rounded-md">
+					<div class=" m-2 text-2xl text-slate-50 mb-4">Let's create your buzz button!</div>
+					<input
+						type="text"
+						placeholder="Display name"
+						class="input input-bordered w-full max-w-xs"
+						bind:value={userNameInput}
+					/>
+					<div class="flex justify-end">
+						<button
+							class="btn btn-md btn-accent m-2 mt-4"
+							onclick={createNewUser}
+							disabled={!userNameInput}>Create</button
+						>
+					</div>
+				</div>
+				<div></div>
+			{:else if userID}
+				<div id="TOP" class="flex justify-center pt-2">
+					<HostNameDisplay />
+				</div>
+
+				<div id="MID" class="text-2xl flex items-center gap-2">
+					<div class=" md:scale-125">
+						<BuzzBtn {handleBtnClick} {isBuzzBtnLock} />
+					</div>
+				</div>
+				<div id="BOT" class="flex flex-col justify-center items-center">
+					<UserInfoDisplay
+						userId={userID}
+						userName={buzzUserData.name}
+						winNum={buzzUserData.win_num}
+						uuid={hostDataMgr.hostData.uuid}
+						isShowUserDelete={true}
+					/>
+				</div>
+			{/if}
+		</div>
+	</div>
+</div> -->
+
 <div class="flex flex-col justify-between items-center min-h-full">
 	{#if userID == null}
 		<div></div>
@@ -192,6 +246,7 @@
 				userName={buzzUserData.name}
 				winNum={buzzUserData.win_num}
 				uuid={hostDataMgr.hostData.uuid}
+				isShowUserDelete={true}
 			/>
 		</div>
 	{/if}

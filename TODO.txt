@@ -1,0 +1,2 @@
+ADD SUbscription to scoresheet page instead of page.svelte
+test on host and guest page
